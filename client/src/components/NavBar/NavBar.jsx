@@ -1,13 +1,31 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
 const NavBar = () => {
     return (
         <nav>
             <ul>
-                <li><a href='/planes'>Planes</a></li>
-                <li><a href='/guias'>Guías</a></li>
-                <li><a href='/retos'>Retos</a></li>
-                <li><a href='/quienSoy'>¿Quién Soy?</a></li>
-                <li><a href='/blog'>Blog</a></li>
-                <li><a href='/contacto'>Contáctame</a></li>
+                <li>
+                    <Link to="/plans">Planes</Link>
+                </li>
+                <li>
+                    <Link to="/guides">Guías</Link>
+                </li>
+                <li>
+                    <Link to="/challenges">Retos</Link>
+                </li>
+                <li>
+                    <Link to="/home">Giuliana Marchiondelli</Link>
+                </li>
+                <li>
+                    <Link to="/me">¿Quién soy?</Link>
+                </li>
+                <li>
+                    <Link to="/vlog">Vlog</Link>
+                </li>
+                <li>
+                    <Link to="/contact">Contáctame</Link>
+                </li>
             </ul>
         </nav>
 

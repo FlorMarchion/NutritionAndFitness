@@ -1,6 +1,12 @@
+import React from "react";
+import AdminNavBar from "../Common/AdminNavBar";
+
 const AdminHome = () => {
     return (
-        <p>Hola Giuli !</p>
+        <div>
+            <p>Hola Giuli !</p>
+            <AdminNavBar />
+        </div>
     )
 }
 export default AdminHome;
