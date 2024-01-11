@@ -8,6 +8,9 @@ const adminController = new AdminController(Admin);
 //Crear admin
 router.post("/admin", (req, res) => adminController.createAdmin(req, res));
 
+//Iniciar Sesión
+router.post("/admin/login", (req, res) => adminController.loginAdmin(req, res));
+
 //Buscar todos los admins
 router.get("/admin", (req, res) => adminController.getAdmin(req, res));
 

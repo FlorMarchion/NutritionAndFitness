@@ -38,6 +38,28 @@ export class AdminController {
     }
   }
 
+  //Login Admin
+
+  async loginAdmin(req: Request, res: Response) {
+    try{
+      const {email} = req.body;
+      const admin = await this.adminRepository.findOne({where:{email}})
+
+      if(!admin){
+        return res.status(401).json({error: "Icorrect credentials"});
+      }
+
+      return res.status(200).json({
+        admin: admin,
+      })
+
+    }catch(error){
+      console.error('Error al iniciar sesión', error);
+      return res.status(500).json({error: "Internal error"})
+
+    }
+  }
+
   async getAdmin(_req: Request, res: Response) {
     try {
       const admin = await this.adminRepository.find();
