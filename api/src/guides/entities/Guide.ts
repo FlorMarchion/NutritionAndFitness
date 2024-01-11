@@ -28,6 +28,9 @@ export class Guide extends BaseEntity {
   image: String;
 
   @Column()
+  category: String;
+
+  @Column()
   duration: string;
 
   @Column({ length: 200 })
@@ -60,6 +63,6 @@ export class Guide extends BaseEntity {
   admin: Admin;
 
   //Relacion Guias_Reviews
-  @OneToMany(()=> Review, (review) => review.guide)
+  @OneToMany(() => Review, (review) => review.guide)
   reviews: Review[];
 }

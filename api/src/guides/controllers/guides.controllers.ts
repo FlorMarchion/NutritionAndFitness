@@ -9,7 +9,7 @@ export class GuideController {
   ) {}
 
   async createGuides(_req: Request, res: Response) {
-    const { title, file, image, description, duration, price, size } =
+    const { title, file, image, category, description, duration, price, size } =
       _req.body;
 
     try {
@@ -22,6 +22,7 @@ export class GuideController {
         title,
         file,
         image,
+        category,
         description,
         duration,
         price,
@@ -50,7 +51,7 @@ export class GuideController {
     try {
       const guides = await this.guideRepository.find({
         relations: ["admin"],
-      })
+      });
       if (guides.length > 0) {
         return res.json(guides);
       } else {
