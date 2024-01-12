@@ -12,6 +12,7 @@ import {
 import { User } from "../../users/entities/User";
 import { Admin } from "../../admin/entities/Admin";
 import { Review } from "../../review/entities/Review";
+import { CategoryGuide } from "./CategoryGuide";
 
 @Entity()
 export class Guide extends BaseEntity {
@@ -26,9 +27,6 @@ export class Guide extends BaseEntity {
 
   @Column()
   image: String;
-
-  @Column()
-  category: String;
 
   @Column()
   duration: string;
@@ -65,4 +63,10 @@ export class Guide extends BaseEntity {
   //Relacion Guias_Reviews
   @OneToMany(() => Review, (review) => review.guide)
   reviews: Review[];
+
+  //Relación Guides_Categories
+  @ManyToOne(() => CategoryGuide, (category) => category.guides, {
+    nullable: false,
+  })
+  categoryGuide: CategoryGuide;
 }

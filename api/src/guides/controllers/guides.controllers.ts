@@ -1,15 +1,17 @@
 import { Request, Response } from "express";
 import { Guide } from "../entities/Guide";
 import { Admin } from "../../admin/entities/Admin";
+import { CategoryGuide } from "../entities/CategoryGuide";
 
 export class GuideController {
   constructor(
     private guideRepository: typeof Guide,
-    private adminRepository: typeof Admin
+    private adminRepository: typeof Admin,
+    private categoryGuideRepository: typeof CategoryGuide
   ) {}
 
   async createGuides(_req: Request, res: Response) {
-    const { title, file, image, category, description, duration, price, size } =
+    const { title, file, image, description, duration, price, size } =
       _req.body;
 
     try {
@@ -18,12 +20,17 @@ export class GuideController {
         id: parseInt(adminId),
       });
 
+      const { categoryGuideId } = _req.body;
+      const categoryId: any = await this.categoryGuideRepository.findOneBy({
+        id: parseInt(categoryGuideId),
+      });
+
       const guide = this.guideRepository.create({
         title,
         file,
         image,
-        category,
         description,
+        categoryGuide: categoryId,
         duration,
         price,
         size,
@@ -44,6 +51,26 @@ export class GuideController {
         return res.status(500).json({ message: error.message });
       }
       return res.status(500).json({ message: "Unknown Error" });
+    }
+  }
+
+  async createCategoryGuide(req: Request, res: Response) { //hacer una verificacion de que si no existe lo agregue , en caso contrario no.
+    try {
+      const { name } = req.body;
+      const category = this.categoryGuideRepository.create({
+        name: name,
+      });
+      await this.categoryGuideRepository.save(category);
+
+      if (!category) {
+        throw new Error("CategoryGuide not created");
+      }
+      return res.status(200).json(category);
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(500).json({ message: error.message });
+      }
+      return res.status(500).json({ message: "Internal Error" });
     }
   }
 
