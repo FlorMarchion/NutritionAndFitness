@@ -30,11 +30,11 @@ export class GuideController {
         file,
         image,
         description,
-        categoryGuide: categoryId,
         duration,
         price,
         size,
         admin: adminIdParams,
+        categoryGuide: categoryId,
       });
 
       if (!adminIdParams) {
@@ -54,9 +54,19 @@ export class GuideController {
     }
   }
 
-  async createCategoryGuide(req: Request, res: Response) { //hacer una verificacion de que si no existe lo agregue , en caso contrario no.
+  async createCategoryGuide(req: Request, res: Response) {
+    //hacer una verificacion de que si no existe lo agregue , en caso contrario no.
     try {
       const { name } = req.body;
+      const existingCategory = await this.categoryGuideRepository.findOneBy({
+        name,
+      });
+      if (existingCategory) {
+        return res
+          .status(400)
+          .json({ message: "This category already exists" });
+      }
+
       const category = this.categoryGuideRepository.create({
         name: name,
       });
