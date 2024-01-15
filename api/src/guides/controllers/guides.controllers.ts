@@ -55,7 +55,6 @@ export class GuideController {
   }
 
   async createCategoryGuide(req: Request, res: Response) {
-    //hacer una verificacion de que si no existe lo agregue , en caso contrario no.
     try {
       const { name } = req.body;
       const existingCategory = await this.categoryGuideRepository.findOneBy({
@@ -103,6 +102,25 @@ export class GuideController {
     }
   }
 
+  async getGuideByCategoryId(_req: Request, res: Response) {
+    try {
+      const { categoryId } = _req.params;
+      const guides = await this.guideRepository.find({
+        where: { categoryGuide: { id: parseInt(categoryId) } },
+      });
+  
+      if (!guides || guides.length === 0) {
+        return res.status(404).json({ message: "No guides found for the specified category." });
+      }
+  
+      return res.status(200).json({ guides, message: "Guides for the specified category." });
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(500).json({ message: error.message });
+      }
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
   getGuideById = async (_req: Request, res: Response) => {
     try {
       const { id } = _req.params;
