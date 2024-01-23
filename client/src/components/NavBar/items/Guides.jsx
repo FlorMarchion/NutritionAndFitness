@@ -1,87 +1,72 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux"
-import { getAllGuides } from "../../../redux/actions/guidesActions";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getAllGuides,
+  getAllCategoryGuides,
+} from "../../../redux/actions/guidesActions.js";
 
-const Guides = () => {
-    const dispatch = useDispatch();
-    const guides = useSelector(state => state.guide.allGuides)
-    console.log("Guias de la db: ", guides)
+export const Guides = () => {
+  const dispatch = useDispatch();
+  const allGuides = useSelector((state) => state.guide.allGuides);
+  const allCategoryGuides = useSelector((state) => state.guide.allCategories);
 
-    const [showNutritionGuides, setShowNutritionGuides] = useState(false);
-    const handleOnPressNutrition = () => {
-        setShowNutritionGuides(!showNutritionGuides);
-        console.log("Botón nutrición")
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [filteredGuides, setFilteredGuides] = useState([]);
+  const [isFilterActive, setIsFilterActive] = useState(false);
+
+  const guidesByCategoryId = (categoryId) => {
+    const filtered = allCategoryGuides.filter(
+      (catGuide) => catGuide.id === Number(categoryId)
+    );
+    setFilteredGuides(filtered);
+  };
+
+  const handleCategoryChange = (event) => {
+    const categoryId = event.target.value;
+    setSelectedCategory(categoryId);
+    if (categoryId) {
+      setIsFilterActive(true);
+      guidesByCategoryId(categoryId);
+    } else {
+      setIsFilterActive(false);
+      setFilteredGuides([]);
     }
+  };
 
-    const [showTrainingGuides, setShowTrainingGuides] = useState(false)
-    const handleOnPressTraining = () => {
-        setShowTrainingGuides(!showTrainingGuides);
-        console.log("Botón Entrenamiento")
-    }
+  useEffect(() => {
+    dispatch(getAllGuides());
+    dispatch(getAllCategoryGuides());
+  }, []);
 
-    const [showTrainingAndNutrition, setTrainingAndNutrition] = useState(false)
-    const handleOnPressTrainingAndNutrition = () => {
-        setTrainingAndNutrition(!showTrainingAndNutrition);
-        console.log("Botón Entrenamiento y nutrición")
-    }
-
-    const nutritionGuide = guides.filter(guide => guide.category === "Nutrición")
-    const trainingGuide = guides.filter(guide => guide.category === "Entrenamiento")
-    const trainingAndNutritionGuide = guides.filter(guide => guide.category === "trainingNutrition")
-
-    useEffect(() => {
-        dispatch(getAllGuides())
-    }, []);
-
-    return (
-        <div>
-            <div>
-                <h2>¿Cuál es para mi?</h2>
-                <div>
-                    <button onClick={handleOnPressNutrition}>
-                        <h3>Guías de Nutrición</h3>
-                    </button>
-                </div>
-                {showNutritionGuides && (
-                    <div>
-                        <ul>
-                            {nutritionGuide?.map(guide => (
-                                <li key={guide.id}>{guide.title}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-                <div>
-                    <button onClick={handleOnPressTraining}>
-                        <h3>Guías de Entrenamiento</h3>
-                    </button>
-                </div>
-                {showTrainingGuides && (
-                    <div>
-                        <ul>
-                            {trainingGuide?.map(guide => (
-                                <li key={guide.id}>{guide.title}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-                <div>
-                    <button onClick={handleOnPressTrainingAndNutrition}>
-                        <h3>Guías de Entrenamiento y Nutrición</h3>
-                    </button>
-                </div>
-                {showTrainingAndNutrition && (
-                    <div>
-                        <ul>
-                            {trainingAndNutritionGuide?.map(guide => (
-                                <li key={guide.id}>{guide.title}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
+  return (
+    <div>
+      <select
+        onChange={(e) => handleCategoryChange(e)}
+        value={selectedCategory || ""}
+      >
+        <option value="">All guides</option>
+        {allCategoryGuides.map((catGuide) => (
+          <option key={catGuide.id} value={catGuide.id}>
+            {catGuide.name}
+          </option>
+        ))}
+      </select>
+      <h1>Guides</h1>
+      {isFilterActive
+        ? filteredGuides[0].guides.map((guide) => (
+            <div id="guides_container_filtered" key={guide.id}>
+              <p>
+                {guide.id} {guide.title}
+              </p>
             </div>
-        </div>
-    )
-}
-export default Guides;
+          ))
+        : allGuides.map((guide) => (
+            <div id="guides_container" key={guide.id}>
+              <p>
+                {guide.id} {guide.title}
+              </p>
+            </div>
+          ))}
+    </div>
+  );
+};
