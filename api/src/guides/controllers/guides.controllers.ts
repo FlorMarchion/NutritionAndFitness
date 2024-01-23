@@ -11,7 +11,7 @@ export class GuideController {
   ) {}
 
   async createGuides(_req: Request, res: Response) {
-    const { title, file, image, description, duration, price, size } =
+    const { title, file, image, diet, description, duration, price, size } =
       _req.body;
 
     try {
@@ -29,6 +29,7 @@ export class GuideController {
         title,
         file,
         image,
+        diet,
         description,
         duration,
         price,
@@ -38,7 +39,7 @@ export class GuideController {
       });
 
       if (!adminIdParams) {
-        return res.status(404).json({ message: "Guide does not exist" });
+        return res.status(404).json({ message: "Admin does not exist" });
       }
 
       await this.guideRepository.save(guide);
@@ -102,18 +103,45 @@ export class GuideController {
     }
   }
 
+  async getAllCategories(_req: Request, res: Response) {
+    try {
+      const categories = await this.categoryGuideRepository.find({
+        relations: ["guides"],
+      });
+
+      if (categories.length > 0) {
+        return res.json(categories);
+      } else {
+        const error = new Error("No guides found");
+        return res.status(500).json({ message: error.message });
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(500).json({ message: error.message });
+      }
+      return res.status(500).json({ message: "Unknown Error" });
+    }
+  }
+
   async getGuideByCategoryId(_req: Request, res: Response) {
     try {
       const { categoryId } = _req.params;
+
+      // Asumiendo que en tu entidad Guide tienes una relación llamada "categoryGuide"
+      // y que el nombre de la propiedad que almacena la relación en Guide es "categoryGuide"
       const guides = await this.guideRepository.find({
         where: { categoryGuide: { id: parseInt(categoryId) } },
       });
-  
+
       if (!guides || guides.length === 0) {
-        return res.status(404).json({ message: "No guides found for the specified category." });
+        return res
+          .status(404)
+          .json({ message: "No guides found for the specified category." });
       }
-  
-      return res.status(200).json({ guides, message: "Guides for the specified category." });
+
+      return res
+        .status(200)
+        .json({ guides, message: "Guides for the specified category." });
     } catch (error) {
       if (error instanceof Error) {
         return res.status(500).json({ message: error.message });
@@ -121,6 +149,7 @@ export class GuideController {
       return res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
   getGuideById = async (_req: Request, res: Response) => {
     try {
       const { id } = _req.params;

@@ -13,7 +13,10 @@ router.post("/guides/:adminId", (req, res) => guideController.createGuides(req, 
 //Crear Categoria de guias
 router.post("/category", (req, res) => guideController.createCategoryGuide(req, res));
 
-//Adquirir guías por categoría
+// Traer todas las categorias y la relación que tiene con guias
+router.get("/categoryGuide", (req, res) => guideController.getAllCategories(req, res))
+
+//Adquirir guías por id de categoría
 router.get("/categoryGuide/:categoryId", (req, res) => guideController.getGuideByCategoryId(req, res))
 
 //Adquirir guías

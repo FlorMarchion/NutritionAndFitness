@@ -29,6 +29,9 @@ export class Guide extends BaseEntity {
   image: String;
 
   @Column()
+  diet: string;
+
+  @Column()
   duration: string;
 
   @Column({ length: 200 })
