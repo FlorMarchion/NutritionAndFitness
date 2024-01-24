@@ -4,11 +4,14 @@ import {
   getAllGuides,
   getAllCategoryGuides,
 } from "../../../redux/actions/guidesActions.js";
+import { Guide } from "./Guide.jsx";
 
 export const Guides = () => {
   const dispatch = useDispatch();
   const allGuides = useSelector((state) => state.guide.allGuides);
   const allCategoryGuides = useSelector((state) => state.guide.allCategories);
+  console.log("Todas las guías", allGuides);
+  console.log("Todas las categorías de guías", allCategoryGuides)
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [filteredGuides, setFilteredGuides] = useState([]);
@@ -51,22 +54,28 @@ export const Guides = () => {
           </option>
         ))}
       </select>
-      <h1>Guides</h1>
+      <h1>Guías</h1>
       {isFilterActive
         ? filteredGuides[0].guides.map((guide) => (
-            <div id="guides_container_filtered" key={guide.id}>
-              <p>
-                {guide.id} {guide.title}
-              </p>
-            </div>
-          ))
+          <div id="guides_container_filtered" key={guide.id}>
+            <Guide
+              key={guide.id}
+              title={guide.title}
+              description={guide.description}
+            />
+          </div>
+        ))
         : allGuides.map((guide) => (
-            <div id="guides_container" key={guide.id}>
-              <p>
-                {guide.id} {guide.title}
-              </p>
+          <div id="guides_container" key={guide.id}>
+            <div>
+              <Guide
+                key={guide.id}
+                title={guide.title}
+                description={guide.description}
+              />
             </div>
-          ))}
+          </div>
+        ))}
     </div>
   );
 };

@@ -1,10 +1,14 @@
 import React from "react";
+import { Filters } from "../../guidesComponents/Filters";
 
 const Challenges = () => {
     return (
         <div>
             <div>
-                <text>Restos, desafíos y premios para los usuarios</text>
+                <p>Restos, desafíos y premios para los usuarios</p>
+            </div>
+            <div>
+                <Filters />
             </div>
         </div>
     )
