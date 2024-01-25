@@ -87,7 +87,7 @@ export class GuideController {
   async getGuides(_req: Request, res: Response) {
     try {
       const guides = await this.guideRepository.find({
-        relations: ["admin"],
+        relations: ["admin", "categoryGuide"],
       });
       if (guides.length > 0) {
         return res.json(guides);
