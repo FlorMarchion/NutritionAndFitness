@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCategoryGuides, getAllGuides } from "../../redux/actions/guidesActions";
-
+import { Guide } from "../NavBar/items/Guide";
+import "./../../styles/filters.css";
 
 export const Filters = () => {
 
@@ -10,12 +11,12 @@ export const Filters = () => {
     const [diet, setDiet] = useState('');
     const [isFilterActive, setIsFilterActive] = useState(false);
     const [filteredGuides, setFilteredGuides] = useState([]);
-    
+
 
 
     const dispatch = useDispatch();
     const allGuides = useSelector((state) => state.guide.allGuides)
-    
+
 
 
     const applyFilters = () => {
@@ -93,7 +94,6 @@ export const Filters = () => {
     return (
         <div>
             <div>Filtros</div>
-
             {/* ------- Filter by diet ---- */}
             <div>
                 <select
@@ -124,7 +124,6 @@ export const Filters = () => {
                 </select>
             </div>
 
-
             {/* ------- Filter by Duration ---- */}
 
             <div>
@@ -138,17 +137,35 @@ export const Filters = () => {
                 </select>
             </div>
 
-            <h2>Dietas Filtradas:</h2>
-            {isFilterActive ? filteredGuides.map((guide) => (
-                <div id="guides_filtered" key={guide.id}>
-                    <h4>{guide.title} </h4>
-                    <li> {guide.diet}</li>
-                    <li>{guide.duration} </li>
-                    <li>{guide.categoryGuide.name} </li>
-                </div>
-            )) : allGuides.map((guide) => (
-                <div id="guides_container" key={guide.id}>{guide.title}</div>
-            ))}
+            <h2>Guías Filtradas:</h2>
+            <div className="containerCards">
+                {isFilterActive ? filteredGuides.map((guide) => (
+                    <div id="guides_filtered" key={guide.id}>
+                        <Guide
+                            key={guide.id}
+                            title={guide.title}
+                            image={guide.image}
+                            description={guide.description}
+                            diet={guide.diet}
+                            duration={guide.duration}
+                            categoryGuide={guide.categoryGuide}
+                        />
+                    </div>
+                )) : allGuides.map((guide) => (
+                    <div id="guides_container" key={guide.id}>
+                        <Guide
+                            key={guide.id}
+                            title={guide.title}
+                            image={guide.image}
+                            description={guide.description}
+                            diet={guide.diet}
+                            duration={guide.duration}
+                            categoryGuide={guide.categoryGuide}
+                        />
+
+                    </div>
+                ))}
+            </div>
         </div>
     )
 }
