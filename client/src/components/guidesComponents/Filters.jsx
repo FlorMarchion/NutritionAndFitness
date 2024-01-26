@@ -5,17 +5,17 @@ import { getAllCategoryGuides, getAllGuides } from "../../redux/actions/guidesAc
 
 export const Filters = () => {
 
-    const [category, setCatgory] = useState('');
+    const [category, setCategory] = useState('');
     const [duration, setDuration] = useState('');
     const [diet, setDiet] = useState('');
     const [isFilterActive, setIsFilterActive] = useState(false);
     const [filteredGuides, setFilteredGuides] = useState([]);
-    console.log("Guias filtradas", filteredGuides)
+    
 
 
     const dispatch = useDispatch();
     const allGuides = useSelector((state) => state.guide.allGuides)
-    console.log("Todas las guías", allGuides);
+    
 
 
     const applyFilters = () => {
@@ -25,13 +25,16 @@ export const Filters = () => {
             result = result.filter((el) => el.diet === String(diet));
         }
 
+        if (category) {
+            result = result.filter((el) => el.categoryGuide.name === String(category));
+        }
+
         if (duration) {
             result = result.filter((el) => el.duration === String(duration));
         }
 
-        // Agrega más condiciones para otros filtros (por categoría, etc.)
-
         setFilteredGuides(result);
+
     };
 
     // --------------- Filter by Diet -------------------
@@ -49,6 +52,17 @@ export const Filters = () => {
     }
     // ---------------Select by Category -------------------
 
+    const handleCategoryOption = (e) => {
+        const selectedCategory = e.target.value;
+        setCategory(selectedCategory);
+
+        if (selectedCategory) {
+            setIsFilterActive(true);
+        } else {
+            setIsFilterActive(false)
+            setFilteredGuides([])
+        }
+    }
 
     // --------------- Filter by Duration -------------------
 
@@ -67,7 +81,7 @@ export const Filters = () => {
 
     useEffect(() => {
         applyFilters();
-    }, [diet, duration]);
+    }, [diet, duration, category]);
 
     useEffect(() => {
         dispatch(getAllGuides())
@@ -94,6 +108,22 @@ export const Filters = () => {
                 </select>
             </div>
 
+            {/* ------- Filter by Category ---- */}
+            <div>
+                <select
+                    onChange={(e) => handleCategoryOption(e)}
+                    value={category || ""}
+                >
+                    <option value="" disabled>Elegir Categoría</option>
+                    <option value="Masa Muscular">Masa Muscular</option>
+                    <option value="Definición">Definición</option>
+                    <option value="Más Energía">Más Energía</option>
+                    <option value="Tren Inferior">Tren Inferior</option>
+                    <option value="Cuerpo Completo">Cuerpo Completo</option>
+
+                </select>
+            </div>
+
 
             {/* ------- Filter by Duration ---- */}
 
@@ -114,6 +144,7 @@ export const Filters = () => {
                     <h4>{guide.title} </h4>
                     <li> {guide.diet}</li>
                     <li>{guide.duration} </li>
+                    <li>{guide.categoryGuide.name} </li>
                 </div>
             )) : allGuides.map((guide) => (
                 <div id="guides_container" key={guide.id}>{guide.title}</div>
