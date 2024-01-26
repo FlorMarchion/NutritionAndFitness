@@ -8,7 +8,7 @@ export class GuideController {
     private guideRepository: typeof Guide,
     private adminRepository: typeof Admin,
     private categoryGuideRepository: typeof CategoryGuide
-  ) {}
+  ) { }
 
   async createGuides(_req: Request, res: Response) {
     const { title, file, image, diet, description, duration, price, size } =
@@ -103,6 +103,28 @@ export class GuideController {
     }
   }
 
+  async getGuidesByTitle(req: Request, res: Response) {
+    try {
+      const { title } = req.params;
+      const findedGuide = await this.guideRepository.findOne({
+        where: {
+          title: title
+        }
+      })
+      if (findedGuide) {
+        return res.status(200).json(findedGuide)
+      } else {
+        const error = new Error("No guides were found with that title");
+        return res.status(404).json({ message: error.message });
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(500).json({ message: error.message })
+      }
+      return res.status(500).json({ message: "Unknown Error" });
+    }
+  }
+
   async getAllCategories(_req: Request, res: Response) {
     try {
       const categories = await this.categoryGuideRepository.find({
@@ -126,9 +148,6 @@ export class GuideController {
   async getGuideByCategoryId(_req: Request, res: Response) {
     try {
       const { categoryId } = _req.params;
-
-      // Asumiendo que en tu entidad Guide tienes una relación llamada "categoryGuide"
-      // y que el nombre de la propiedad que almacena la relación en Guide es "categoryGuide"
       const guides = await this.guideRepository.find({
         where: { categoryGuide: { id: parseInt(categoryId) } },
       });
@@ -188,8 +207,6 @@ export class GuideController {
         return res.status(500).json({ message: error.message });
       }
     }
-
-    // Si ocurre algún error inesperado, devuelve una respuesta con estado 500
     return res.status(500).json({ message: "Internal Server Error" });
   };
 

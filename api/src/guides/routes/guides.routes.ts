@@ -22,6 +22,9 @@ router.get("/categoryGuide/:categoryId", (req, res) => guideController.getGuideB
 //Adquirir guías
 router.get("/guides", (req, res) => guideController.getGuides(req, res));
 
+//Adquirir guías por nombre
+router.get("/guides/:title", (req, res) => guideController.getGuidesByTitle(req, res))
+
 //Adquirir guías por id
 router.get("/guides/:id", (req, res) => guideController.getGuideById(req, res));
 
