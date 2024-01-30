@@ -103,25 +103,28 @@ export class GuideController {
     }
   }
 
-  async getGuidesByTitle(req: Request, res: Response) {
+  async getGuidesByTitleAndDescription(req: Request, res: Response) {
     try {
-      const { title } = req.params;
-      const findedGuide = await this.guideRepository.findOne({
-        where: {
-          title: title
-        }
-      })
-      if (findedGuide) {
-        return res.status(200).json(findedGuide)
+      const keyword = req.query.keyword;
+  
+      const qb = await this.guideRepository.createQueryBuilder('guide');
+      const foundGuides = await qb
+        .orWhere('guide.title ILIKE :keyword', { keyword: '%' + keyword + '%' })
+        .orWhere('guide.description ILIKE :keyword', { keyword: '%' + keyword + '%' })
+        .getMany();
+  
+      console.log(qb.getSql());
+      if (foundGuides.length > 0) {
+        res.status(200).json(foundGuides);
       } else {
-        const error = new Error("No guides were found with that title");
-        return res.status(404).json({ message: error.message });
+        res.status(404).json({ message: "No guides were found with that keyword" });
       }
     } catch (error) {
       if (error instanceof Error) {
-        res.status(500).json({ message: error.message })
+        res.status(500).json({ message: error.message });
+      } else {
+        res.status(500).json({ message: "Unknown Error" });
       }
-      return res.status(500).json({ message: "Unknown Error" });
     }
   }
 
