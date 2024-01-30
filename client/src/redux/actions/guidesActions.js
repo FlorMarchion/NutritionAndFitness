@@ -22,9 +22,13 @@ export const getAllCategoryGuides = () => async (dispatch) => {
     dispatch(categoryGuides(allCategories))
 }
 
-//Guides by Tutle
-export const getGuidesByTitle = (title) => async (dispatch) => {
-    let response = await axios.get(`http://localhost:3001/guides/${title}`)
+//Guides by Title or description
+export const getGuidesByTitle = (keyword) => async (dispatch) => {
+    let response = await axios.get('http://localhost:3001/guides/byTitleOrDescription/', {
+        params: {
+            keyword: keyword,
+        }
+    })
     let allGuidesByTitle = response.data;
     dispatch(guidesByTitle(allGuidesByTitle))
 }
