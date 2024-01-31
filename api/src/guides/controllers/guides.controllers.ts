@@ -106,13 +106,21 @@ export class GuideController {
   async getGuidesByTitleAndDescription(req: Request, res: Response) {
     try {
       const keyword = req.query.keyword;
-  
+
       const qb = await this.guideRepository.createQueryBuilder('guide');
+
+      // Join and select the categoryGuide data
+      qb.leftJoinAndSelect('guide.categoryGuide', 'categoryGuide');
+
+      // Apply eager loading using QueryBuilder options
+      const options: any = { relations: ['categoryGuide'] };
+
       const foundGuides = await qb
         .orWhere('guide.title ILIKE :keyword', { keyword: '%' + keyword + '%' })
         .orWhere('guide.description ILIKE :keyword', { keyword: '%' + keyword + '%' })
+        .setOption(options)
         .getMany();
-  
+
       console.log(qb.getSql());
       if (foundGuides.length > 0) {
         res.status(200).json(foundGuides);
