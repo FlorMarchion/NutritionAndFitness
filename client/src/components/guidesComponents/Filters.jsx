@@ -4,42 +4,19 @@ import { getAllCategoryGuides, getAllGuides } from "../../redux/actions/guidesAc
 import { Guide } from "../NavBar/items/Guide";
 import "./../../styles/filters.css";
 
-export const Filters = () => {
-
-    const [category, setCategory] = useState('');
-    const [duration, setDuration] = useState('');
-    const [diet, setDiet] = useState('');
-    const [isFilterActive, setIsFilterActive] = useState(false);
-    const [filteredGuides, setFilteredGuides] = useState([]);
-
-
-
-    const dispatch = useDispatch();
-    const allGuides = useSelector((state) => state.guide.allGuides)
-
-
-
-    const applyFilters = () => {
-        let result = [...allGuides];
-
-        if (diet) {
-            result = result.filter((el) => el.diet === String(diet));
-        }
-
-        if (category) {
-            result = result.filter((el) => el.categoryGuide.name === String(category));
-        }
-
-        if (duration) {
-            result = result.filter((el) => el.duration === String(duration));
-        }
-
-        setFilteredGuides(result);
-
-    };
+export const Filters = ({
+    guides,
+    setIsFilterActive,
+    setFilteredGuides,
+    category,
+    setCategory,
+    duration,
+    setDuration,
+    diet,
+    setDiet
+}) => {
 
     // --------------- Filter by Diet -------------------
-
     const handleDietOption = (e) => {
         const selectedDiet = e.target.value;
         setDiet(selectedDiet);
@@ -51,12 +28,11 @@ export const Filters = () => {
             setFilteredGuides([])
         }
     }
-    // ---------------Select by Category -------------------
 
+    // ---------------Select by Category -------------------
     const handleCategoryOption = (e) => {
         const selectedCategory = e.target.value;
         setCategory(selectedCategory);
-
         if (selectedCategory) {
             setIsFilterActive(true);
         } else {
@@ -66,11 +42,9 @@ export const Filters = () => {
     }
 
     // --------------- Filter by Duration -------------------
-
     const handleDurationOption = (e) => {
         const selectedDuration = e.target.value;
         setDuration(selectedDuration);
-
         if (selectedDuration) {
             setIsFilterActive(true);
         } else {
@@ -79,17 +53,23 @@ export const Filters = () => {
         }
     }
 
+    const applyFilters = () => {
+        let result = [...guides];
+        if (diet) {
+            result = result.filter((el) => el.diet === String(diet));
+        }
+        if (category) {
+            result = result.filter((el) => el.categoryGuide.name === String(category));
+        }
+        if (duration) {
+            result = result.filter((el) => el.duration === String(duration));
+        }
+        setFilteredGuides(result);
+    };
 
     useEffect(() => {
         applyFilters();
     }, [diet, duration, category]);
-
-    useEffect(() => {
-        dispatch(getAllGuides())
-        dispatch(getAllCategoryGuides());
-
-    }, [])
-
 
     return (
         <div>
@@ -123,9 +103,7 @@ export const Filters = () => {
 
                 </select>
             </div>
-
             {/* ------- Filter by Duration ---- */}
-
             <div>
                 <select
                     onChange={(e) => handleDurationOption(e)}
@@ -136,36 +114,7 @@ export const Filters = () => {
                     <option value="8 semanas">8 Semanas</option>
                 </select>
             </div>
-
             <h2>Guías Filtradas:</h2>
-            <div className="containerCards">
-                {isFilterActive ? filteredGuides.map((guide) => (
-                    <div id="guides_filtered" key={guide.id}>
-                        <Guide
-                            key={guide.id}
-                            title={guide.title}
-                            image={guide.image}
-                            description={guide.description}
-                            diet={guide.diet}
-                            duration={guide.duration}
-                            categoryGuide={guide.categoryGuide}
-                        />
-                    </div>
-                )) : allGuides.map((guide) => (
-                    <div id="guides_container" key={guide.id}>
-                        <Guide
-                            key={guide.id}
-                            title={guide.title}
-                            image={guide.image}
-                            description={guide.description}
-                            diet={guide.diet}
-                            duration={guide.duration}
-                            categoryGuide={guide.categoryGuide}
-                        />
-
-                    </div>
-                ))}
-            </div>
         </div>
     )
 }

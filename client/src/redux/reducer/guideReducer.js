@@ -4,7 +4,7 @@ const initialState = {
     allGuides: [],
     allGuidesByCategory: [],
     allCategories: [],
-    allGuidesByTitle: [],
+    allGuidesByTitleOrDescription: [],
 }
 
 const guideSlice = createSlice({
@@ -21,7 +21,7 @@ const guideSlice = createSlice({
             state.allCategories = action.payload
         },
         guidesByTitle: (state, action) => {
-            state.allGuidesByTitle = action.payload
+            state.allGuidesByTitleOrDescription = action.payload
         }
     }
 })

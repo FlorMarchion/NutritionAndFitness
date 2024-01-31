@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getGuidesByTitle } from "../../redux/actions/guidesActions";
+import { useDispatch } from "react-redux";
+import { getGuidesByTitleOrDescription } from "../../redux/actions/guidesActions";
 
-export const SearchBar = () => {
+export const SearchBar = ({ setShowResults }) => {
 
     const dispatch = useDispatch();
-    const guidesByTitles = useSelector((state) => state.guide.allGuidesByTitle);
-    console.log("guias por titulo", guidesByTitles);
-
     const [search, setSearch] = useState({ keyword: "" });
 
     const handleInputChange = (e) => {
@@ -16,13 +13,14 @@ export const SearchBar = () => {
             ...search,
             keyword: e.target.value,
         });
+        console.log(e.target.value);
     }
 
     const handleSearch = (e) => {
         e.preventDefault();
-        dispatch(getGuidesByTitle(search.keyword));
+        dispatch(getGuidesByTitleOrDescription(search.keyword.normalize("NFKD").toLowerCase()));
+        setShowResults(true)
     }
-
 
     return (
         <div>
@@ -30,11 +28,11 @@ export const SearchBar = () => {
                 autoComplete="off"
                 type="text"
                 placeholder="Buscar guía..."
-                name='name'
+                name="name"
                 value={search.keyword}
-                onChange={(e) => handleInputChange(e)}
+                onChange={handleInputChange}
             />
-            <button onClick={(e) => handleSearch(e)}>Buscar</button>
+            <button onClick={handleSearch}>Buscar</button>
         </div>
     );
 };
