@@ -13,7 +13,6 @@ export const SearchBar = ({ setShowResults }) => {
             ...search,
             keyword: e.target.value,
         });
-        console.log(e.target.value);
     }
 
     const handleSearch = (e) => {

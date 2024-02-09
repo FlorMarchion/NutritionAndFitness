@@ -1,7 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllCategoryGuides, getAllGuides } from "../../redux/actions/guidesActions";
-import { Guide } from "../NavBar/items/Guide";
+import React, { useEffect } from "react";
 import "./../../styles/filters.css";
 
 export const Filters = ({

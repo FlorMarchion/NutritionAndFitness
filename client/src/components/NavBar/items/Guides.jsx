@@ -4,6 +4,7 @@ import { SearchBar } from "../../guidesComponents/SearchBar.jsx";
 import { Guide } from "./Guide.jsx";
 import { getAllCategoryGuides, getAllGuides } from "../../../redux/actions/guidesActions.js";
 import { useDispatch, useSelector } from "react-redux";
+import { OrderGuides } from "../../guidesComponents/OrderGuides.jsx";
 
 export const Guides = () => {
   const dispatch = useDispatch();
@@ -13,11 +14,21 @@ export const Guides = () => {
   const [category, setCategory] = useState('');
   const [duration, setDuration] = useState('');
   const [diet, setDiet] = useState('');
+
   const [isFilterActive, setIsFilterActive] = useState(false);
   const [filteredGuides, setFilteredGuides] = useState([]);
   const [guides, setGuides] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const [searchResults, setSearchResults] = useState([]); //guias por titulo y descripcion
+
+  const [orderOptions, setOrderOptions] = useState(false);
+  const [orderedGuides, setOrderedGuides] = useState([]);
+  console.log('orderOptions', orderOptions);
+  console.log('orderGuides', orderedGuides);
+  console.log('allGuides', allGuides);
+
+
+
 
   const applyFilters = () => {
     let result = [...allGuides];
@@ -49,6 +60,14 @@ export const Guides = () => {
     setSearchResults(guidesByTitles);
   }, [guidesByTitles]);
 
+  useEffect(() => {
+    if (orderOptions === true) {
+      setGuides(orderedGuides);
+    } else {
+      setGuides(allGuides);
+    }
+  }, [orderOptions, orderedGuides, allGuides]);
+
   return (
     <div>
       <SearchBar
@@ -64,6 +83,11 @@ export const Guides = () => {
         setDuration={setDuration}
         diet={diet}
         setDiet={setDiet}
+      />
+      <OrderGuides
+        allGuides={allGuides}
+        setOrderedGuides={setOrderedGuides}
+        setOrderOptions={setOrderOptions}
       />
       <div className="containerCards" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
         {isFilterActive ? filteredGuides.map((guide) => (
@@ -106,7 +130,7 @@ export const Guides = () => {
 
             )}
           </>
-        ) : allGuides.map((guide) => (
+        ) : (orderOptions ? orderedGuides.map((guide) => (
           <div id="guides_container" key={guide.id}>
             <Guide
               key={guide.id}
@@ -118,7 +142,19 @@ export const Guides = () => {
               categoryGuide={guide.categoryGuide}
             />
           </div>
-        ))}
+        )) : allGuides.map((guide) => (
+          <div id="guides_container" key={guide.id}>
+            <Guide
+              key={guide.id}
+              title={guide.title}
+              image={guide.image}
+              description={guide.description}
+              diet={guide.diet}
+              duration={guide.duration}
+              categoryGuide={guide.categoryGuide}
+            />
+          </div>
+        )))}
       </div>
     </div>
   );
