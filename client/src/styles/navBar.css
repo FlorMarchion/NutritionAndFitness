@@ -1,0 +1,25 @@
+.navegation-container {
+    background-color: #97010E;
+    padding-right: 2rem;
+    padding-left: 2rem;
+}
+
+.navegation-items-list {
+    padding: 2rem 0;
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    text-decoration: none;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #fff;
+    font-family: 'Castoro', serif;
+    font-size: x-large;
+    transition: text-shadow 0.3s ease;
+}
+
+.nav-link:hover {
+    text-shadow: 0 0 15px rgba(255, 255, 255, 1)
+}
