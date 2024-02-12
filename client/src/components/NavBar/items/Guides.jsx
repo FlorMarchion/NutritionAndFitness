@@ -5,6 +5,7 @@ import { Guide } from "./Guide.jsx";
 import { getAllCategoryGuides, getAllGuides } from "../../../redux/actions/guidesActions.js";
 import { useDispatch, useSelector } from "react-redux";
 import { OrderGuides } from "../../guidesComponents/OrderGuides.jsx";
+import { GuideDetails } from "./GuideDetails.jsx";
 
 export const Guides = () => {
   const dispatch = useDispatch();
@@ -23,9 +24,9 @@ export const Guides = () => {
 
   const [orderOptions, setOrderOptions] = useState(false);
   const [orderedGuides, setOrderedGuides] = useState([]);
-  console.log('orderOptions', orderOptions);
-  console.log('orderGuides', orderedGuides);
-  console.log('allGuides', allGuides);
+
+  const [detailsVisible, setDetailsVisible] = useState(false); //Cuando clickeo la card
+  const [selectedGuide, setSelectedGuide] = useState(null);
 
 
 
@@ -90,7 +91,7 @@ export const Guides = () => {
         setOrderOptions={setOrderOptions}
       />
       <div className="containerCards" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-        {isFilterActive ? filteredGuides.map((guide) => (
+        {isFilterActive && detailsVisible ? filteredGuides.map((guide) => (
           <div id="guides_filtered" key={guide.id}>
             <Guide
               key={guide.id}
@@ -100,11 +101,16 @@ export const Guides = () => {
               diet={guide.diet}
               duration={guide.duration}
               categoryGuide={guide.categoryGuide}
+              price={guide.price}
+              setDetailsVisible={() => {
+                setSelectedGuide(guide);  // Guarda la guía seleccionada
+                setDetailsVisible(true)
+              }}
             />
           </div>
         )) : showResults ? (
           <>
-            {showResults && searchResults && searchResults.length > 0 && (
+            {showResults && detailsVisible && searchResults && searchResults.length > 0 && (
               <div>
                 <h2>Guías encontradas:</h2>
                 <ul>
@@ -117,6 +123,11 @@ export const Guides = () => {
                       diet={guide.diet}
                       duration={guide.duration}
                       categoryGuide={guide.categoryGuide}
+                      price={guide.price}
+                      setDetailsVisible={() => {
+                        setSelectedGuide(guide);  // Guarda la guía seleccionada
+                        setDetailsVisible(true)
+                      }}
                     />
                   ))}
                 </ul>
@@ -140,6 +151,11 @@ export const Guides = () => {
               diet={guide.diet}
               duration={guide.duration}
               categoryGuide={guide.categoryGuide}
+              price={guide.price}
+              setDetailsVisible={() => {
+                setSelectedGuide(guide);  // Guarda la guía seleccionada
+                setDetailsVisible(true)
+              }}
             />
           </div>
         )) : allGuides.map((guide) => (
@@ -152,10 +168,23 @@ export const Guides = () => {
               diet={guide.diet}
               duration={guide.duration}
               categoryGuide={guide.categoryGuide}
+              price={guide.price}
+              setDetailsVisible={() => {
+                setSelectedGuide(guide);  // Guarda la guía seleccionada
+                setDetailsVisible(true);
+              }}
             />
           </div>
         )))}
       </div>
+      {/* Mostrar el detalle de la guía si selectedGuide y detailsVisible son true */}
+      {selectedGuide && detailsVisible && (
+        <GuideDetails
+          isOpen={detailsVisible}
+          onRequestClose={() => setDetailsVisible(false)}
+        // ... otras props para el detalle de la guía
+        />
+      )}
     </div>
   );
 };
