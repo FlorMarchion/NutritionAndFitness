@@ -8,11 +8,14 @@ import {
   DeleteDateColumn,
   JoinTable,
   OneToMany,
+  OneToOne,
+  JoinColumn,
 } from "typeorm";
 import { Article } from "../../articles/entities/Articles";
 import { Guide } from "../../guides/entities/Guide";
 import { Favorites } from "../../favorites/entities/Favorites";
-import {Review } from "../../review/entities/Review"
+import { Review } from "../../review/entities/Review"
+import { Cart } from "./Cart";
 
 @Entity() //Es un decorador para indicar que lo siguiente no solo es una clase de javascript, sino que es una tabla dentro de mi base de datos.
 export class User extends BaseEntity {
@@ -72,8 +75,12 @@ export class User extends BaseEntity {
   favoriteGuides: Guide[];
 
   //User_Reviews
-  @OneToMany(()=> Review, (review) => review.users)
+  @OneToMany(() => Review, (review) => review.users)
   @JoinTable()
-  review : Review[]
+  review: Review[]
 
+  //User_Cart
+  @OneToOne(() => Cart, cart => cart.user)
+  @JoinColumn()
+  cart: Cart;
 }

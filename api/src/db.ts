@@ -6,6 +6,7 @@ import { Favorites } from "./favorites/entities/Favorites";
 import { Admin } from "./admin/entities/Admin";
 import { Review } from "./review/entities/Review";
 import { CategoryGuide } from "./guides/entities/CategoryGuide";
+import { Cart } from "./users/entities/Cart";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -16,7 +17,7 @@ export const AppDataSource = new DataSource({
   database: "giuliProjectDb",
   synchronize: true,
   logging: false,
-  entities: [User, Guide, CategoryGuide, Admin, Article, Favorites, Review],
+  entities: [User, Guide, CategoryGuide, Admin, Article, Favorites, Review, Cart],
   // subscribers: [],
   // migrations: [],
 });

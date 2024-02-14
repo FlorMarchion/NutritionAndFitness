@@ -72,4 +72,8 @@ export class Guide extends BaseEntity {
     nullable: false,
   })
   categoryGuide: CategoryGuide;
+
+  //Relación Guides_Cart
+  @OneToMany(() => Guide, guide => guide.guideCarts)
+    guideCarts: Guide[];
 }
