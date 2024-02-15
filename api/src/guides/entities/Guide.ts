@@ -8,6 +8,7 @@ import {
   DeleteDateColumn,
   OneToMany,
   ManyToOne,
+  JoinTable,
 } from "typeorm";
 import { User } from "../../users/entities/User";
 import { Admin } from "../../admin/entities/Admin";
@@ -75,5 +76,6 @@ export class Guide extends BaseEntity {
 
   //Relación Guides_Cart
   @OneToMany(() => Guide, guide => guide.guideCarts)
-    guideCarts: Guide[];
+  @JoinTable()
+  guideCarts: Guide[];
 }

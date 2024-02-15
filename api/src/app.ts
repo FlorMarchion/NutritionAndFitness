@@ -7,6 +7,7 @@ import articleRoutes from './articles/routes/articles.routes';
 import adminRoutes from './admin/routes/admin.routes'
 import favoritesRoutes from './favorites/routes/favorites.routes'
 import reviewsRouter from './review/routes/review.routers'
+import cartRoutes from './cart/routes/cart.route';
 
 const app = express();
 app.use(express.json()); // Esto es un middleware que transforma la req.body a un json (los endPOits que envio a la app se transforman automáticamente, para no hacerlo de manera manual)
@@ -20,4 +21,5 @@ app.use(articleRoutes);
 app.use(adminRoutes);
 app.use(favoritesRoutes);
 app.use(reviewsRouter)
+app.use(cartRoutes)
 export default app;

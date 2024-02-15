@@ -6,7 +6,7 @@ import { Favorites } from "./favorites/entities/Favorites";
 import { Admin } from "./admin/entities/Admin";
 import { Review } from "./review/entities/Review";
 import { CategoryGuide } from "./guides/entities/CategoryGuide";
-import { Cart } from "./users/entities/Cart";
+import { Cart } from "./cart/Cart";
 
 export const AppDataSource = new DataSource({
   type: "postgres",

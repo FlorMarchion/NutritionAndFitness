@@ -51,7 +51,4 @@ export class Article extends BaseEntity {
   @ManyToOne(() => Admin, (admin) => admin.article, { nullable: false })
   admin: Admin;
 
-  // Article_Cart
-  @OneToMany(() => Article, article => article.articleCarts)
-  articleCarts: Article[];
 }

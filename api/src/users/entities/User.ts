@@ -15,7 +15,7 @@ import { Article } from "../../articles/entities/Articles";
 import { Guide } from "../../guides/entities/Guide";
 import { Favorites } from "../../favorites/entities/Favorites";
 import { Review } from "../../review/entities/Review"
-import { Cart } from "./Cart";
+import { Cart } from "../../cart/Cart";
 
 @Entity() //Es un decorador para indicar que lo siguiente no solo es una clase de javascript, sino que es una tabla dentro de mi base de datos.
 export class User extends BaseEntity {
