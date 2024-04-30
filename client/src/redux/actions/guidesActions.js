@@ -32,3 +32,26 @@ export const getGuidesByTitleOrDescription = (keyword) => async (dispatch) => {
     let allGuidesByTitleOrDescription = response.data;
     dispatch(guidesByTitle(allGuidesByTitleOrDescription))
 }
+
+//Guides by Diet, Category and Duration
+// Función para obtener guías filtradas por categoría, duración y dieta
+export const getGuidesFiltered = (categoryId, duration, diet) => async (dispatch) => {
+    try {
+        // URL base de la API
+        const baseURL = 'http://localhost:3001';
+        
+        // encodeURIComponent: esta función es útil para asegurarse de que los caracteres especiales que pueden tener significados especiales en una URL sean codificados correctamente antes de incluirse en una solicitud.
+        const url = `${baseURL}/guides/getByQuery?categoryId=${categoryId}&duration=${encodeURIComponent(duration)}&diet=${encodeURIComponent(diet)}`;
+        
+        // Hacer la solicitud Axios
+        const response = await axios.get(url);
+
+        // Obtener y enviar los datos al dispatcher
+        const guidesFiltered = response.data.result;
+        dispatch(guidesFiltered(guidesFiltered));
+
+    } catch (error) {
+        // Manejar el error
+        console.error('Error fetching filtered guides:', error);
+    }
+};

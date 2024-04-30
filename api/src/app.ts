@@ -13,7 +13,6 @@ const app = express();
 app.use(express.json()); // Esto es un middleware que transforma la req.body a un json (los endPOits que envio a la app se transforman automáticamente, para no hacerlo de manera manual)
 app.use(morgan("dev"));
 app.use(cors());
-app.use(express.json());
 
 app.use(userRoutes);
 app.use(guidesRoutes);

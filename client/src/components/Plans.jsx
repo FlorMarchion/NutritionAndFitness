@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import nutrition from "../../../assets/img/monika-grabkowska-pCxJvSeSB5A-unsplash.jpg"
-import training from "../../../assets/img/hayley-kim-design-eot-ka5dM7Q-unsplash.jpg"
-import nutritionAndTraining from "../../../assets/img/mark-adriane-xQghSLXYD3M-unsplash.jpg"
+import nutrition from "../assets/img/monika-grabkowska-pCxJvSeSB5A-unsplash.jpg"
+import training from "../assets/img/hayley-kim-design-eot-ka5dM7Q-unsplash.jpg"
+import nutritionAndTraining from "../assets/img/mark-adriane-xQghSLXYD3M-unsplash.jpg"
 
 const Plans = () => {
     return (

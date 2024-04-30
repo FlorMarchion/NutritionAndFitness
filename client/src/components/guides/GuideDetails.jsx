@@ -3,6 +3,7 @@ import Modal from "react-modal"
 
 
 export const GuideDetails = (props) => {
+
     return (
 
         <Modal

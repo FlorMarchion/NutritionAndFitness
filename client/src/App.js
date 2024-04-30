@@ -3,14 +3,14 @@ import Modal from "react-modal";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./components/Landing";
 import Home from "./components/Home/Home";
-import NavBar from "./components/NavBar/NavBar";
-import Plans from "./components/NavBar/items/Plans";
-import { Guides } from "./components/NavBar/items/Guides";
-import Me from "./components/NavBar/items/Me";
-import Vlog from "./components/NavBar/items/Vlog";
-import Contact from "./components/NavBar/items/Contact";
-import Challenges from "./components/NavBar/items/Challenges";
-import { GuideDetails } from "./components/NavBar/items/GuideDetails";
+import NavBar from "./components/navBar/NavBar";
+import Plans from "./components/Plans";
+import { Guides } from "./components/guides/Guides";
+import Me from "./components/Me";
+import Vlog from "./components/Vlog";
+import Contact from "./components/Contact";
+import Challenges from "./components/Challenges";
+import { GuideDetails } from "./components/guides/GuideDetails";
 
 export const App = () => {
 

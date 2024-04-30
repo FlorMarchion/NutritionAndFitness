@@ -180,7 +180,7 @@ export class GuideController {
     }
   }
 
-  getGuideById = async (_req: Request, res: Response) => {
+  async getGuideById(_req: Request, res: Response) {
     try {
       const { id } = _req.params;
       const guide = await this.guideRepository.findOneBy({ id: parseInt(id) });
@@ -193,12 +193,40 @@ export class GuideController {
       if (error instanceof Error) {
         return res.status(500).json({ message: error.message });
       }
+      return res.status(500).json({ message: "Internal Server Error" });
     }
-
-    return res.status(500).json({ message: "Internal Server Error" });
   };
 
-  updateGuide = async (_req: Request, res: Response) => {
+  async getGuidesFiltered(_req: Request, res: Response) {
+    // los query params son formato strings
+    const {
+      categoryId,
+      diet,
+      duration,
+    } = _req.query as any;
+
+    try {
+      const result = await this.guideRepository.find({
+        relations: ["categoryGuide"],
+        where: {
+          categoryGuide: {
+            id: parseInt(categoryId),
+          },
+          diet,
+          duration,
+        }
+      });
+      
+      return res.status(200).json({ result});
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(500).json({ message: error.message });
+      }
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  async updateGuide(_req: Request, res: Response) {
     try {
       const { id } = _req.params;
       const guide = await this.guideRepository.findOne({

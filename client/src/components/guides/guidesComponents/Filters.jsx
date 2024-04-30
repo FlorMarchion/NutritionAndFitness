@@ -1,72 +1,43 @@
 import React, { useEffect } from "react";
-import "./../../styles/filters.css";
+import "../../../styles/filters.css";
+import { getGuidesFiltered } from "../../../redux/actions/guidesActions";
+import { useDispatch } from "react-redux";
 
 export const Filters = ({
     guides,
     setIsFilterActive,
-    setFilteredGuides,
-    category,
-    setCategory,
     duration,
-    setDuration,
+    categoryId,
+    setCategoryId,
     diet,
+    setDuration,
     setDiet
 }) => {
 
-    // --------------- Filter by Diet -------------------
+    const dispatch = useDispatch();
+
+    
+   
     const handleDietOption = (e) => {
-        const selectedDiet = e.target.value;
-        setDiet(selectedDiet);
-
-        if (selectedDiet) {
-            setIsFilterActive(true);
-        } else {
-            setIsFilterActive(false)
-            setFilteredGuides([])
-        }
+        setDiet(e.target.value);
+        setIsFilterActive(true);
     }
 
-    // ---------------Select by Category -------------------
     const handleCategoryOption = (e) => {
-        const selectedCategory = e.target.value;
-        setCategory(selectedCategory);
-        if (selectedCategory) {
-            setIsFilterActive(true);
-        } else {
-            setIsFilterActive(false)
-            setFilteredGuides([])
-        }
+        setCategoryId(e.target.value);
+        setIsFilterActive(true);
     }
 
-    // --------------- Filter by Duration -------------------
     const handleDurationOption = (e) => {
-        const selectedDuration = e.target.value;
-        setDuration(selectedDuration);
-        if (selectedDuration) {
-            setIsFilterActive(true);
-        } else {
-            setIsFilterActive(false)
-            setFilteredGuides([])
-        }
+        setDuration(e.target.value);
+        setIsFilterActive(true);
     }
 
-    const applyFilters = () => {
-        let result = [...guides];
-        if (diet) {
-            result = result.filter((el) => el.diet === String(diet));
-        }
-        if (category) {
-            result = result.filter((el) => el.categoryGuide.name === String(category));
-        }
-        if (duration) {
-            result = result.filter((el) => el.duration === String(duration));
-        }
-        setFilteredGuides(result);
-    };
+
 
     useEffect(() => {
-        applyFilters();
-    }, [diet, duration, category]);
+        dispatch(getGuidesFiltered(categoryId, duration, diet));
+    }, [categoryId, duration, diet, dispatch]);
 
     return (
         <div>
@@ -89,7 +60,7 @@ export const Filters = ({
             <div>
                 <select
                     onChange={(e) => handleCategoryOption(e)}
-                    value={category || ""}
+                    value={categoryId || ""}
                 >
                     <option value="" disabled>Elegir Categoría</option>
                     <option value="Masa Muscular">Masa Muscular</option>
