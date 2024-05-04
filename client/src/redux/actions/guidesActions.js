@@ -1,4 +1,4 @@
-import { guides, guidesByCategory, categoryGuides, guidesByTitle } from "../reducer/guideReducer";
+import { guides, guidesByCategory, categoryGuides, guidesByTitle, setFilteredGuides } from "../reducer/guideReducer";
 import axios from 'axios'
 
 //All guides
@@ -35,7 +35,8 @@ export const getGuidesByTitleOrDescription = (keyword) => async (dispatch) => {
 
 //Guides by Diet, Category and Duration
 // Función para obtener guías filtradas por categoría, duración y dieta
-export const getGuidesFiltered = (categoryId, duration, diet) => async (dispatch) => {
+export const getGuidesFiltered = ({categoryId, duration, diet}) => async (dispatch) => {
+    console.log({categoryId, duration, diet});
     try {
         // URL base de la API
         const baseURL = 'http://localhost:3001';
@@ -45,10 +46,10 @@ export const getGuidesFiltered = (categoryId, duration, diet) => async (dispatch
         
         // Hacer la solicitud Axios
         const response = await axios.get(url);
+        console.log('Respuesta del axios',response);
 
         // Obtener y enviar los datos al dispatcher
-        const guidesFiltered = response.data.result;
-        dispatch(guidesFiltered(guidesFiltered));
+        dispatch(setFilteredGuides(response.data.result));
 
     } catch (error) {
         // Manejar el error

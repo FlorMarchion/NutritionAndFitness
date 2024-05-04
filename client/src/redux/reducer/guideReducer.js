@@ -2,10 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     allGuides: [],
+    allGuidesCopy: [],
     allGuidesByCategory: [],
     allCategories: [],
     allGuidesByTitleOrDescription: [],
-    allGuidesFilered: [],
+    allGuidesFiltered: [],
 }
 
 const guideSlice = createSlice({
@@ -13,7 +14,8 @@ const guideSlice = createSlice({
     initialState,
     reducers: {
         guides: (state, action) => {
-            state.allGuides = action.payload
+            state.allGuides = action.payload;
+            // state.allGuidesCopy = action.payload;
         },
         guidesByCategory: (state, action) => {
             state.allGuidesByCategory = action.payload
@@ -24,8 +26,8 @@ const guideSlice = createSlice({
         guidesByTitle: (state, action) => {
             state.allGuidesByTitleOrDescription = action.payload
         },
-        guidesFiltered: (state, action) => {
-            state.allGuidesFilered = action.payload
+        setFilteredGuides: (state, action) => {
+            state.allGuides = action.payload
         }
     }
 })
@@ -35,7 +37,7 @@ export const {
     guidesByCategory,
     categoryGuides,
     guidesByTitle,
-    guidesFiltered
+    setFilteredGuides
 } = guideSlice.actions
 
 export default guideSlice.reducer;

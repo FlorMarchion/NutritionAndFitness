@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Guide } from "../entities/Guide";
 import { Admin } from "../../admin/entities/Admin";
 import { CategoryGuide } from "../entities/CategoryGuide";
+import { GuideFilterQueryType } from "../types/guides.types";
 
 export class GuideController {
   constructor(
@@ -203,21 +204,36 @@ export class GuideController {
       categoryId,
       diet,
       duration,
-    } = _req.query as any;
+      // page,
+      // asc,
+      // rate
+    } = _req.query as GuideFilterQueryType;
+
+    let filters: any = {};
+
+    if (categoryId !== 'null') {
+      filters.categoryGuide = {
+        id: parseInt(categoryId),
+      }
+    }
+
+    if (diet !== 'null') {
+      filters.diet = diet
+    }
+
+    if (duration !== 'null') {
+      filters.duration = duration
+    }
 
     try {
       const result = await this.guideRepository.find({
         relations: ["categoryGuide"],
-        where: {
-          categoryGuide: {
-            id: parseInt(categoryId),
-          },
-          diet,
-          duration,
-        }
+        where: filters,
+        // take: 10, // OPCIONES DE QUERY PARA PAGINADO
+        // skip: page,
       });
-      
-      return res.status(200).json({ result});
+
+      return res.status(200).json({ result });
     } catch (error) {
       if (error instanceof Error) {
         return res.status(500).json({ message: error.message });

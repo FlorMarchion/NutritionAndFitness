@@ -1,43 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import "../../../styles/filters.css";
-import { getGuidesFiltered } from "../../../redux/actions/guidesActions";
-import { useDispatch } from "react-redux";
 
 export const Filters = ({
-    guides,
-    setIsFilterActive,
-    duration,
-    categoryId,
-    setCategoryId,
     diet,
-    setDuration,
-    setDiet
+    categoryId,
+    duration,
+    setFilterState
 }) => {
 
-    const dispatch = useDispatch();
-
-    
-   
     const handleDietOption = (e) => {
-        setDiet(e.target.value);
-        setIsFilterActive(true);
+        // setDiet(e.target.value);
+        setFilterState((prevState) => ({
+            ...prevState,
+            diet: e.target.value,
+        }));
     }
 
     const handleCategoryOption = (e) => {
-        setCategoryId(e.target.value);
-        setIsFilterActive(true);
+        // setCategoryId(e.target.value);
+        setFilterState((prevState) => ({
+            ...prevState,
+            categoryId: e.target.value,
+        }));
+        // setIsFilterActive(false);
     }
 
     const handleDurationOption = (e) => {
-        setDuration(e.target.value);
-        setIsFilterActive(true);
+        setFilterState((prevState) => ({
+            ...prevState,
+            duration: e.target.value,
+        }));
+        // setIsFilterActive(false);
+
     }
 
-
-
-    useEffect(() => {
-        dispatch(getGuidesFiltered(categoryId, duration, diet));
-    }, [categoryId, duration, diet, dispatch]);
 
     return (
         <div>
@@ -52,7 +48,6 @@ export const Filters = ({
                     <option value="Variada">Variada</option>
                     <option value="Vegetariana">Vegetariana</option>
                     <option value="Celíaca">Celíaca</option>
-
                 </select>
             </div>
 
@@ -63,11 +58,12 @@ export const Filters = ({
                     value={categoryId || ""}
                 >
                     <option value="" disabled>Elegir Categoría</option>
-                    <option value="Masa Muscular">Masa Muscular</option>
-                    <option value="Definición">Definición</option>
-                    <option value="Más Energía">Más Energía</option>
-                    <option value="Tren Inferior">Tren Inferior</option>
-                    <option value="Cuerpo Completo">Cuerpo Completo</option>
+                    <option value="1">Cuerpo Completo</option>
+                    <option value="2">Masa Muscular</option>
+                    <option value="3">Definición</option>
+                    <option value="4">Más Energía</option>
+                    <option value="5">Entrenamiento</option>
+                    <option value="6">Tren Inferior</option>
 
                 </select>
             </div>
