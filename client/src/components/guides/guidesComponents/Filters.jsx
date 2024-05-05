@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "../../../styles/filters.css";
 
 export const Filters = ({
@@ -9,7 +9,6 @@ export const Filters = ({
 }) => {
 
     const handleDietOption = (e) => {
-        // setDiet(e.target.value);
         setFilterState((prevState) => ({
             ...prevState,
             diet: e.target.value,
@@ -17,12 +16,10 @@ export const Filters = ({
     }
 
     const handleCategoryOption = (e) => {
-        // setCategoryId(e.target.value);
         setFilterState((prevState) => ({
             ...prevState,
             categoryId: e.target.value,
         }));
-        // setIsFilterActive(false);
     }
 
     const handleDurationOption = (e) => {
@@ -30,7 +27,6 @@ export const Filters = ({
             ...prevState,
             duration: e.target.value,
         }));
-        // setIsFilterActive(false);
 
     }
 

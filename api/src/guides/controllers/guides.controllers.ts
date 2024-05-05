@@ -210,7 +210,7 @@ export class GuideController {
     } = _req.query as GuideFilterQueryType;
 
     let filters: any = {};
-    let pagination: any = {}; 
+    let pagination: any = {};
 
     if (categoryId !== 'null') {
       filters.categoryGuide = {
@@ -226,11 +226,13 @@ export class GuideController {
       filters.duration = duration
     }
 
-    if(page === 'null' || take === 'null' ){
-      pagination.page = 0
-      pagination.take = 10
+    if (take === 'null' || page === 'null') {
+      pagination.page = 0;
+      pagination.take = 10;
+    } else {
+      pagination.page = parseInt(page);
+      pagination.take = parseInt(take);
     }
-
 
     try {
       let result = await this.guideRepository.find({
@@ -241,7 +243,8 @@ export class GuideController {
       });
 
       // // Aplicar ordenamiento si se proporciona el parámetro order
-      if (order) {
+      if (order === 'null') {
+      } else {
         switch (order) {
           case 'higherPrice':
             result = result.sort((a: any, b: any) => b.price - a.price);
@@ -264,6 +267,7 @@ export class GuideController {
           default:
             return res.status(400).json({ message: 'Invalid order parameter' });
         }
+
       }
 
       return res.status(200).json({ result });
