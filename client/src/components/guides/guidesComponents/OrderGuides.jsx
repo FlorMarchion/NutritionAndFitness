@@ -1,22 +1,21 @@
 import React from "react";
 
 
-export const OrderGuides = ({ allGuides, setOrderedGuides, setOrderOptions }) => {
+export const OrderGuides = ({ guides, setOrderedGuides, setOrderOptions }) => {
 
     const handleOrderOption = (e) => {
-        console.log({ value: e.target.value });
+        console.log('Value',{ value: e.target.value });
         const selectOption = e.target.value;
-        let result = [...allGuides];
+        let result = [...guides];
+        console.log('Primer Resultado', result)
 
         switch (selectOption) {
             case 'mayor precio':
                 result = result.sort((a, b) => b.price - a.price);
                 break;
-
             case "menor precio":
                 result = result.sort((a, b) => a.price - b.price);
                 break;
-
             case "A-Z":
                 result = result.sort((a, b) => a.title.localeCompare(b.title));
                 break;
@@ -37,11 +36,12 @@ export const OrderGuides = ({ allGuides, setOrderedGuides, setOrderOptions }) =>
                 // Lógica por defecto si no coincide con ninguna opción
                 return result;
         }
-        // console.log({ result });
+        console.log('Resultado',result);
         // console.log(result.map(el => {console.log("Final",el.createdAt);}));
         setOrderedGuides(result)
+        console.log('Order Guides',setOrderedGuides)
         setOrderOptions(true);
-        return result;
+        // return result;
         // Puedes enviar el resultado ordenado al estado global si es necesario
         // dispatch(setOrderedGuide(result));
     };

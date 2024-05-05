@@ -198,18 +198,19 @@ export class GuideController {
     }
   };
 
-  async getGuidesFiltered(_req: Request, res: Response) {
+  async getGuidesFilteredAndOrdered(_req: Request, res: Response) {
     // los query params son formato strings
     const {
       categoryId,
       diet,
       duration,
-      // page,
-      // asc,
-      // rate
+      order,
+      take,
+      page,
     } = _req.query as GuideFilterQueryType;
 
     let filters: any = {};
+    let pagination: any = {}; 
 
     if (categoryId !== 'null') {
       filters.categoryGuide = {
@@ -225,13 +226,45 @@ export class GuideController {
       filters.duration = duration
     }
 
+    if(page === 'null' || take === 'null' ){
+      pagination.page = 0
+      pagination.take = 10
+    }
+
+
     try {
-      const result = await this.guideRepository.find({
+      let result = await this.guideRepository.find({
         relations: ["categoryGuide"],
         where: filters,
-        // take: 10, // OPCIONES DE QUERY PARA PAGINADO
-        // skip: page,
+        take: parseInt(pagination.take), // OPCIONES DE QUERY PARA PAGINADO
+        skip: parseInt(pagination.page),
       });
+
+      // // Aplicar ordenamiento si se proporciona el parámetro order
+      if (order) {
+        switch (order) {
+          case 'higherPrice':
+            result = result.sort((a: any, b: any) => b.price - a.price);
+            break;
+          case "minorPrice":
+            result = result.sort((a: any, b: any) => a.price - b.price);
+            break;
+          case "asc":
+            result = result.sort((a: any, b: any) => a.title.localeCompare(b.title));
+            break;
+          case "desc":
+            result = result.sort((a: any, b: any) => b.title.localeCompare(a.title));
+            break;
+          case "recent":
+            result = result.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+            break;
+          case "older":
+            result = result.sort((a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+            break
+          default:
+            return res.status(400).json({ message: 'Invalid order parameter' });
+        }
+      }
 
       return res.status(200).json({ result });
     } catch (error) {

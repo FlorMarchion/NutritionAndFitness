@@ -25,7 +25,7 @@ router.get("/guides", (req, res) => guideController.getGuides(req, res));
 //Adquirir guías por nombre
 router.get("/guides/byTitleOrDescription", (req, res) => guideController.getGuidesByTitleAndDescription(req, res))
 
-router.get("/guides/getByQuery", (req, res) =>{ guideController.getGuidesFiltered(req, res)});
+router.get("/guides/getByQuery", (req, res) =>{ guideController.getGuidesFilteredAndOrdered(req, res)});
 
 //Adquirir guías por id
 router.get("/guides/:id", (req, res) => guideController.getGuideById(req, res));
