@@ -36,7 +36,6 @@ export const getGuidesByTitleOrDescription = (keyword) => async (dispatch) => {
 //Guides by Diet, Category and Duration
 // Función para obtener guías filtradas por categoría, duración y dieta
 export const getGuidesFiltered = ({ categoryId, duration, diet, order, take, page }) => async (dispatch) => {
-    console.log('action de las guias filtradas');
     console.log({ categoryId, duration, diet, order, take, page });
     try {
         // URL base de la API
@@ -46,8 +45,6 @@ export const getGuidesFiltered = ({ categoryId, duration, diet, order, take, pag
         const url = `${baseURL}/guides/getByQuery?categoryId=${categoryId}&duration=${encodeURIComponent(duration)}&diet=${encodeURIComponent(diet)}&order=${order}&take=${take}&page=${page}`;
         // Hacer la solicitud Axios
         const response = await axios.get(url);
-        console.log('Respuesta del axios', response);
-
         // Obtener y enviar los datos al dispatcher
         dispatch(setFilteredGuides(response.data.result));
 

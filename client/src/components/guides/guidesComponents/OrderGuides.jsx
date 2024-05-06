@@ -16,6 +16,7 @@ export const OrderGuides = ({ selectOrderActive, setFilterState }) => {
         <div>
             <select onChange={(e) => handleOrderOption(e)}>
                 <option value="" disabled>Ordenar por</option>
+                <option value="null">Todas las guías</option> {/*Podría ser una mejor opción utilizar este caso en una opcion de "Limpiar ordenamiento","Sin ordenamiento"*/}
                 <option value="recent">Más recientes</option>
                 <option value="older">Más antiguas</option>
                 <option value="minorPrice">Menor precio</option>

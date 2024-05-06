@@ -5,7 +5,6 @@ const initialState = {
     allGuidesCopy: [],
     allGuidesByCategory: [],
     allCategories: [],
-    allGuidesByTitleOrDescription: [],
     allGuidesFiltered: [],
 }
 
@@ -24,7 +23,7 @@ const guideSlice = createSlice({
             state.allCategories = action.payload
         },
         guidesByTitle: (state, action) => {
-            state.allGuidesByTitleOrDescription = action.payload
+            state.allGuides = action.payload
         },
         setFilteredGuides: (state, action) => {
             state.allGuides = action.payload

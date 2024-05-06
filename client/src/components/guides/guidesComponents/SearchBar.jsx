@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { getGuidesByTitleOrDescription } from "../../redux/actions/guidesActions";
+import { getGuidesByTitleOrDescription } from "../../../redux/actions/guidesActions";
 
-export const SearchBar = ({ setShowResults }) => {
+export const SearchBar = ({ setOnSearch, search, setSearch }) => {
 
     const dispatch = useDispatch();
-    const [search, setSearch] = useState({ keyword: "" });
 
     const handleInputChange = (e) => {
         e.preventDefault();
@@ -17,8 +16,9 @@ export const SearchBar = ({ setShowResults }) => {
 
     const handleSearch = (e) => {
         e.preventDefault();
+        setOnSearch(true)
         dispatch(getGuidesByTitleOrDescription(search.keyword.normalize("NFKD").toLowerCase()));
-        setShowResults(true)
+        console.log("Ejecuto la busqueda");
     }
 
     return (
