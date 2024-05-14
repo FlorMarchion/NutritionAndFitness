@@ -1,8 +1,10 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "../../styles/navBar.css"
+import { useTranslation } from "react-i18next";
 
 const NavBar = () => {
+    const { t, i18n } = useTranslation("global")
     const location = useLocation();
 
     return (
@@ -32,6 +34,8 @@ const NavBar = () => {
                             <li>
                                 <Link className="nav-link" to="/contact">Contáctame</Link>
                             </li>
+                            <button onClick={()=> i18n.changeLanguage("es")}>Español</button>
+                            <button onClick={()=> i18n.changeLanguage("en")}>English</button>
                         </ul>
                     </div>
                 </nav> : null

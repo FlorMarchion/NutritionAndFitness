@@ -5,8 +5,11 @@ import { getAllGuides, getGuidesFiltered } from "./../../redux/actions/guidesAct
 import { Filters } from "./guidesComponents/Filters.jsx";
 import { OrderGuides } from "./guidesComponents/OrderGuides.jsx";
 import { SearchBar } from "./guidesComponents/SearchBar.jsx";
+import { useTranslation } from "react-i18next";
 
 export const Guides = () => {
+  const [t, i18n] = useTranslation("global")
+
   const dispatch = useDispatch();
   const guides = useSelector((state) => state.guide.allGuides);
   const copyGuides = useSelector((state) => state.guide.allGuidesCopy);
@@ -48,6 +51,7 @@ export const Guides = () => {
 
   return (
     <div>
+      <h1>{t("header.hello-world")}</h1>
       <SearchBar
         search={search}
         setSearch={setSearch}
