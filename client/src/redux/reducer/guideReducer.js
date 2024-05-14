@@ -14,7 +14,7 @@ const guideSlice = createSlice({
     reducers: {
         guides: (state, action) => {
             state.allGuides = action.payload;
-            // state.allGuidesCopy = action.payload;
+            state.allGuidesCopy = action.payload;
         },
         guidesByCategory: (state, action) => {
             state.allGuidesByCategory = action.payload

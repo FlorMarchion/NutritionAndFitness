@@ -1,12 +1,18 @@
 import React from "react";
 import "../../../styles/filters.css";
+import { useDispatch } from "react-redux";
+// import { getAllGuides } from "../../../redux/actions/guidesActions";
 
 export const Filters = ({
     diet,
     categoryId,
     duration,
-    setFilterState
+    setFilterState,
+    filterState,
+    setClearFilters
 }) => {
+
+    // const dispatch = useDispatch()
 
     const handleDietOption = (e) => {
         setFilterState((prevState) => ({
@@ -28,6 +34,19 @@ export const Filters = ({
             duration: e.target.value,
         }));
 
+    }
+
+    const handleClearFilters = (e) => {
+        console.log('Limpiar filtros');
+        setClearFilters(true);
+        setFilterState((prevState) => ({
+            ...prevState,
+            diet: null,
+            categoryId: null,
+            duration: null,
+            take: 10,
+            page: 0,
+        }))
     }
 
 
@@ -75,6 +94,10 @@ export const Filters = ({
                 </select>
             </div>
             <h2>Guías Filtradas:</h2>
+            <div>
+                <button onClick={(e) => handleClearFilters(e)}>Limpiar Filtros</button>
+            </div>
         </div>
+
     )
 }

@@ -9,14 +9,18 @@ import { SearchBar } from "./guidesComponents/SearchBar.jsx";
 export const Guides = () => {
   const dispatch = useDispatch();
   const guides = useSelector((state) => state.guide.allGuides);
+  const copyGuides = useSelector((state) => state.guide.allGuidesCopy);
   const guidesByTitle = useSelector((state) => state.guide.allGuidesByTitleOrDescription);
 
 
   const [categoryId, setCategoryId] = useState('');
   const [duration, setDuration] = useState('');
   const [diet, setDiet] = useState('');
+  const [clearFilters, setClearFilters] = useState(false);
+  console.log('state filters', clearFilters);
   const [search, setSearch] = useState({ keyword: "" });
   const [onSearch, setOnSearch] = useState(false);
+  const [searchResults, setSearchResults] = useState([])
   const [isOrderActive, selectOrderActive] = useState(false)
   const [filterState, setFilterState] = useState({
     diet: null,
@@ -32,12 +36,15 @@ export const Guides = () => {
     if (isOrderActive) {
       dispatch(getAllGuides());
     }
+    if (clearFilters === true) {
+      dispatch(getAllGuides(copyGuides))
+    }
     if (filterState) {
       dispatch(getGuidesFiltered(filterState))
     } if (onSearch === true) {
       console.log('Valor de onSearch', onSearch);
     }
-  }, [filterState, guidesByTitle]);
+  }, [filterState, guidesByTitle, clearFilters]);
 
   return (
     <div>
@@ -57,10 +64,11 @@ export const Guides = () => {
         duration={setDuration}
         filterState={filterState}
         setFilterState={setFilterState}
+        setClearFilters={setClearFilters}
       />
       <Guide
         guides={guides}
-      // guides={filterState ? guidesFiltered : guides}
+        // guides={clearFilters ? copyGuides : guides}
       />
     </div>
   )

@@ -5,7 +5,8 @@ import axios from 'axios'
 export const getAllGuides = () => async (dispatch) => {
     let response = await axios.get('http://localhost:3001/guides')
     let allGuides = response.data
-    dispatch(guides(allGuides))
+    let allGuidesCopy = response.data
+    dispatch(guides(allGuides, allGuidesCopy))
 }
 
 //Guides by category Id
@@ -24,13 +25,18 @@ export const getAllCategoryGuides = () => async (dispatch) => {
 
 //Guides by Title or description
 export const getGuidesByTitleOrDescription = (keyword) => async (dispatch) => {
-    let response = await axios.get('http://localhost:3001/guides/byTitleOrDescription/', {
-        params: {
-            keyword: keyword,
-        }
-    })
-    let allGuidesByTitleOrDescription = response.data;
-    dispatch(guidesByTitle(allGuidesByTitleOrDescription))
+    try {
+        let response = await axios.get('http://localhost:3001/guides/byTitleOrDescription/', {
+            params: {
+                keyword: keyword,
+            }
+        })
+        let allGuidesByTitleOrDescription = response.data;
+        dispatch(guidesByTitle(allGuidesByTitleOrDescription))
+        
+    } catch (error) {
+        console.error('Error fetching guides by title or description:', error);
+    }
 }
 
 //Guides by Diet, Category and Duration
@@ -49,7 +55,6 @@ export const getGuidesFiltered = ({ categoryId, duration, diet, order, take, pag
         dispatch(setFilteredGuides(response.data.result));
 
     } catch (error) {
-        // Manejar el error
         console.error('Error fetching filtered guides:', error);
     }
 };
