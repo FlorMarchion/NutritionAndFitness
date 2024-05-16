@@ -7,7 +7,6 @@ export const Guide = (props) => {
 
   const [selectedGuide, setSelectedGuide] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  console.log('Mostrar modal',showModal);
 
   const handleDetails = (guide) => {
     setSelectedGuide(guide);

@@ -6,17 +6,16 @@ export const GuideDetails = (props) => {
     const { selectedGuide, closeModal } = props
     const { title, description, categoryGuide, diet, duration, price } = selectedGuide
 
-    // Función para manejar el cierre del modal al presionar Escape
+    
     const handleKeyDown = (event) => {
-        console.log('Cerré el modal');
         if (event.key === 'Escape') {
-            closeModal(); // Llamamos a la función closeModal cuando se presiona Escape
+            closeModal();
         }
     };
 
     return (
         <Modal
-            isOpen={props.isOpen} // Asegúrate de que el modal esté abierto
+            isOpen={props.isOpen}
             onRequestClose={closeModal}
             onKeyDown={handleKeyDown}
         >

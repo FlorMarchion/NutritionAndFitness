@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { User } from "../entities/User";
 import { UserController } from "../controllers/user.controllers";
+import { Cart } from "../../cart/Cart";
 
 const router = Router();
-const userController = new UserController(User);
+const userController = new UserController(User, Cart);
 
 //Crear un ususario
 router.post("/users", (req, res) => userController.createUser(req, res));
