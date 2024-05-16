@@ -1,5 +1,8 @@
 {
     "header" : {
         "hello-world" : "Hello world"
+    },
+    "searchBar" : {
+        "search" : "Search"
     }
 }

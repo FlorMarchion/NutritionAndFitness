@@ -20,7 +20,6 @@ export const Guides = () => {
   const [duration, setDuration] = useState('');
   const [diet, setDiet] = useState('');
   const [clearFilters, setClearFilters] = useState(false);
-  console.log('state filters', clearFilters);
   const [search, setSearch] = useState({ keyword: "" });
   const [onSearch, setOnSearch] = useState(false);
   const [searchResults, setSearchResults] = useState([])

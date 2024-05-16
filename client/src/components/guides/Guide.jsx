@@ -1,13 +1,27 @@
 import "./../../styles/guide.css";
+import { useState } from "react";
+import { GuideDetails } from "./GuideDetails";
 
 export const Guide = (props) => {
   const { guides } = props;
+
+  const [selectedGuide, setSelectedGuide] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  console.log('Mostrar modal',showModal);
+
+  const handleDetails = (guide) => {
+    setSelectedGuide(guide);
+    setShowModal(true);
+  }
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <div>
       {guides && guides.length > 0 ? (
         guides.map(guide => (
-          <div key={guide.id}>
+          <div key={guide.id} onClick={() => handleDetails(guide)}>
             <h2>{guide.title}</h2>
             <img src={guide.image} alt={guide.title} />
             <h5>{guide.description}</h5>
@@ -22,6 +36,12 @@ export const Guide = (props) => {
           <p>No hay guías disponibles</p>
         </div>
       )}
+      {selectedGuide && 
+      <GuideDetails 
+      selectedGuide={selectedGuide}
+      closeModal={closeModal}
+      isOpen={showModal}
+      />}
     </div>
   )
 }

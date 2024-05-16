@@ -1,8 +1,10 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { getGuidesByTitleOrDescription } from "../../../redux/actions/guidesActions";
+import { useTranslation } from "react-i18next";
 
 export const SearchBar = ({ setOnSearch, search, setSearch }) => {
+    const [t, i18n] = useTranslation("global")
 
     const dispatch = useDispatch();
 
@@ -31,7 +33,7 @@ export const SearchBar = ({ setOnSearch, search, setSearch }) => {
                 value={search.keyword}
                 onChange={handleInputChange}
             />
-            <button onClick={handleSearch}>Buscar</button>
+            <button onClick={handleSearch}>{t("searchBar.search")}</button>
         </div>
     );
 };
