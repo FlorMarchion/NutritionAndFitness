@@ -8,12 +8,13 @@ import {
   DeleteDateColumn,
   OneToMany,
   ManyToOne,
-  JoinTable,
+  ManyToMany,
 } from "typeorm";
 import { User } from "../../users/entities/User";
 import { Admin } from "../../admin/entities/Admin";
 import { Review } from "../../review/entities/Review";
 import { CategoryGuide } from "./CategoryGuide";
+import { Cart } from "../../cart/Cart";
 
 @Entity()
 export class Guide extends BaseEntity {
@@ -74,8 +75,7 @@ export class Guide extends BaseEntity {
   })
   categoryGuide: CategoryGuide;
 
-  //Relación Guides_Cart
-  @OneToMany(() => Guide, guide => guide.guideCarts)
-  @JoinTable()
-  guideCarts: Guide[];
+  // Relación Guides_Cart
+  @ManyToMany(() => Cart, cart => cart.guides)
+  carts: Cart[];
 }

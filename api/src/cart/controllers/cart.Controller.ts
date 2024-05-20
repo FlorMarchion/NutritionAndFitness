@@ -1,49 +1,65 @@
 import { Request, Response } from "express";
 import { Cart } from "../Cart";
-import { User } from "../../users/entities/User";
 import { Guide } from "../../guides/entities/Guide";
+import { User } from "../../users/entities/User";
+
 
 export class CartController {
     constructor(private cartRepository: typeof Cart,
-        private userRepository: typeof User,
         private guideRepository: typeof Guide,
+        private userRepository: typeof User,
+
     ) { }
 
-    async createCart(req: Request, res: Response) {
-
-        const { userId, guideId, totalPrice, isDeleted } = req.body;
+    async addGuideToCart(req: Request, res: Response) {
+        const { userId, guideId, totalPrice } = req.body;
 
         try {
-            const user: any = await this.userRepository.findOneBy({
-                id: parseInt(userId),
-            })
-            console.log("Usuario encontrado",user);
-            const guide: any = await this.guideRepository.findOneBy({
-                id: parseInt(guideId),
-            });
-            
+            // Buscar el usuario
+            const user = await this.userRepository.findOne({ where: { id: userId } });
 
             if (!user) {
-                throw new Error("User not found")
+                return res.status(404).json({ message: "User does not exist" });
             }
 
-            if (!guide) {
-                throw new Error("Guide not found")
+            // Buscar el carrito del usuario
+            let cart = await this.cartRepository.findOne({
+                where: { user: { id: userId } },
+                relations: ["guides"]
+            });
+
+            if (!cart) {
+                return res.status(404).json({ message: "Cart does not exist for this user" });
             }
-            
-            const cart = this.cartRepository.create({
-                user: user,
-                guide: guide,
-                totalPrice,
-                isDeleted
-            })
-            await this.cartRepository.save(cart)
+
+            // Verificar si la guía ya está en el carrito
+            const guideInCart = cart.guides.find(guide => guide.id === parseInt(guideId));
+
+            if (guideInCart) {
+                return res.status(409).json({ message: "Guide already exists in cart" });
+            } else {
+                // Buscar la guía por su ID
+                const guide = await this.guideRepository.findOne({
+                    where: {
+                        id: parseInt(guideId),
+                        price: totalPrice,
+                    }
+                });
+
+                if (!guide) {
+                    return res.status(404).json({ message: "Guide not found" });
+                }
+
+                // Agregar la guía al carrito
+                cart.guides.push(guide);
+                await this.cartRepository.save(cart);
+            }
             return res.status(200).json(cart);
         } catch (error) {
             if (error instanceof Error) {
-                return res.status(500).json({ message: error.message })
+                return res.status(500).json({ message: error.message });
             }
-            return res.status(500).json({ message: "Internal error" })
+            return res.status(500).json({ message: "Internal error" });
         }
     }
 }

@@ -1,13 +1,13 @@
 import { Router } from 'express';
 import { CartController } from '../controllers/cart.Controller';
-import { User } from '../../users/entities/User';
-import { Guide } from '../../guides/entities/Guide';
 import { Cart } from '../Cart';
+import { Guide } from '../../guides/entities/Guide';
+import { User } from '../../users/entities/User';
 
 const router = Router();
-const cartController = new CartController(Cart, User, Guide);
+const cartController = new CartController(Cart, Guide, User);
 
 //Crear Carrito
-router.post("/cart", (req, res) => cartController.createCart(req, res));
+router.post("/cart", (req, res) => cartController.addGuideToCart(req, res));
 
 export default router;
