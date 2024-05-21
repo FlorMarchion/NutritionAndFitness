@@ -62,4 +62,33 @@ export class CartController {
             return res.status(500).json({ message: "Internal error" });
         }
     }
+
+    async getCartGuides(_req: Request, res: Response) {
+        const { userId } = _req.params;
+        try {
+
+            const userCart = await this.userRepository.findOne({
+                where: { id: parseInt(userId) }
+            })
+            if (!userCart) {
+                return res.status(404).json({ message: "User does not exist" });
+            }
+
+            const guides = await this.cartRepository.find({
+                where: { user: { id: parseInt(userId) } },
+                relations: ["user"]
+            });
+            if (guides.length > 0) {
+                return res.status(200).json(guides);
+            } else {
+                const error = new Error("Cart is empty");
+                return res.status(500).json({ message: error.message });
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                res.status(500).json({ message: error.message })
+            }
+        }
+        return res.status(500).json({ message: "Internal error" });
+    }
 }

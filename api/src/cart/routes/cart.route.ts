@@ -10,4 +10,7 @@ const cartController = new CartController(Cart, Guide, User);
 //Crear Carrito
 router.post("/cart", (req, res) => cartController.addGuideToCart(req, res));
 
+//Trar guías del carrito
+router.get("/cart/:userId", (req, res) => cartController.getCartGuides(req, res));
+
 export default router;

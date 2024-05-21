@@ -11,6 +11,7 @@ import Vlog from "./components/Vlog";
 import Contact from "./components/Contact";
 import Challenges from "./components/Challenges";
 import { GuideDetails } from "./components/guides/GuideDetails";
+import { Cart } from "./components/Cart";
 
 export const App = () => {
 
@@ -31,6 +32,7 @@ export const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/challenges" element={<Challenges />} />
         <Route path="/cardGuide" element={<GuideDetails />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </div>
   );

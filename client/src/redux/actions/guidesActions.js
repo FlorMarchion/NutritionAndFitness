@@ -1,4 +1,4 @@
-import { guides, guidesByCategory, categoryGuides, guidesByTitle, setFilteredGuides } from "../reducer/guideReducer";
+import { guides, guidesByCategory, categoryGuides, guidesByTitle, setFilteredGuides, cart, } from "../reducer/guideReducer";
 import axios from 'axios'
 
 //All guides
@@ -33,7 +33,7 @@ export const getGuidesByTitleOrDescription = (keyword) => async (dispatch) => {
         })
         let allGuidesByTitleOrDescription = response.data;
         dispatch(guidesByTitle(allGuidesByTitleOrDescription))
-        
+
     } catch (error) {
         console.error('Error fetching guides by title or description:', error);
     }
@@ -42,7 +42,6 @@ export const getGuidesByTitleOrDescription = (keyword) => async (dispatch) => {
 //Guides by Diet, Category and Duration
 // Función para obtener guías filtradas por categoría, duración y dieta
 export const getGuidesFiltered = ({ categoryId, duration, diet, order, take, page }) => async (dispatch) => {
-    console.log({ categoryId, duration, diet, order, take, page });
     try {
         // URL base de la API
         const baseURL = 'http://localhost:3001';
@@ -57,4 +56,35 @@ export const getGuidesFiltered = ({ categoryId, duration, diet, order, take, pag
     } catch (error) {
         console.error('Error fetching filtered guides:', error);
     }
-};
+}
+
+//Agregar guías al carrito
+export const addGuidesToCart = (userId, guideId, totalPrice) => async (dispatch) => {
+    try {
+        let response = await axios.post('http://localhost:3001/cart', { userId, guideId, totalPrice })
+        let guidesInCart = response.data;
+        dispatch(cart(guidesInCart))
+        console.log('Se ejecutó la acción');
+
+    } catch (error) {
+        console.error("Can't add guide to cart:", error);
+
+    }
+}
+
+//Traer guías desde el carrtio
+export const getGuidesFromCart = (userId) => async (dispatch) => {
+    try {
+        let response = await axios.get(`http://localhost:3001/cart/${userId}`)
+        let guidesInCart = response.data;
+        dispatch(cart(guidesInCart))
+        console.log('Se ejecutó la acción');
+
+    } catch (error) {
+        console.error("Can't get guides from cart:", error);
+
+    }
+}
+
+
+

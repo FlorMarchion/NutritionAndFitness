@@ -6,6 +6,7 @@ const initialState = {
     allGuidesByCategory: [],
     allCategories: [],
     allGuidesFiltered: [],
+    cart: [],
 }
 
 const guideSlice = createSlice({
@@ -27,6 +28,9 @@ const guideSlice = createSlice({
         },
         setFilteredGuides: (state, action) => {
             state.allGuides = action.payload
+        },
+        cart: (state, action) => {
+            state.cart = [...state.cart, action.payload];
         }
     }
 })
@@ -36,7 +40,8 @@ export const {
     guidesByCategory,
     categoryGuides,
     guidesByTitle,
-    setFilteredGuides
+    setFilteredGuides,
+    cart
 } = guideSlice.actions
 
 export default guideSlice.reducer;

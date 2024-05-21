@@ -1,4 +1,4 @@
-import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { User } from "../users/entities/User";
 import { Guide } from "../guides/entities/Guide";
 
@@ -24,9 +24,9 @@ export class Cart extends BaseEntity {
     isDeleted: boolean;
 
     // Cart_Users
-    @OneToOne(() => User, user => user.cart)
-    @JoinColumn()
+    @ManyToOne(() => User, user => user.carts)
     user: User;
+
 
     // Cart_Guides
     @ManyToMany(() => Guide, guide => guide.carts, { cascade: true })

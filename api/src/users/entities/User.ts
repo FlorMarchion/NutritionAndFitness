@@ -8,8 +8,6 @@ import {
   DeleteDateColumn,
   JoinTable,
   OneToMany,
-  OneToOne,
-  JoinColumn,
 } from "typeorm";
 import { Article } from "../../articles/entities/Articles";
 import { Guide } from "../../guides/entities/Guide";
@@ -80,7 +78,6 @@ export class User extends BaseEntity {
   review: Review[]
 
   //User_Cart
-  @OneToOne(() => Cart, cart => cart.user)
-  @JoinColumn()
-  cart: Cart;
+  @OneToMany(() => Cart, cart => cart.user)
+  carts: Cart[];
 }

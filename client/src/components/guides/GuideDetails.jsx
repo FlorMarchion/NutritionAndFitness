@@ -1,17 +1,28 @@
 import React from "react";
 import Modal from "react-modal"
+import { useDispatch } from "react-redux";
+import { addGuidesToCart } from "../../redux/actions/guidesActions";
 
 
 export const GuideDetails = (props) => {
     const { selectedGuide, closeModal } = props
-    const { title, description, categoryGuide, diet, duration, price } = selectedGuide
+    const { id: guideId, title, description, categoryGuide, diet, duration, price } = selectedGuide
 
-    
+    const dispatch = useDispatch()
+
+
     const handleKeyDown = (event) => {
         if (event.key === 'Escape') {
             closeModal();
         }
     };
+
+    const addGuideToCart = () => {
+        const totalPrice = price
+        const userId = 7;
+        dispatch(addGuidesToCart(userId, guideId, totalPrice))
+        console.log('Agregue al carrito')
+    }
 
     return (
         <Modal
@@ -28,6 +39,7 @@ export const GuideDetails = (props) => {
                 <h4>Dieta: {diet}</h4>
                 <p>Duración: {duration}</p>
                 <h3>Precio: ${price}</h3>
+                <button onClick={addGuideToCart}>Agregar al carrito</button>
             </div>
         </Modal>
     )
