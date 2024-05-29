@@ -30,7 +30,7 @@ const guideSlice = createSlice({
             state.allGuides = action.payload
         },
         cart: (state, action) => {
-            state.cart = [...state.cart, action.payload];
+            state.cart = [action.payload];
         }
     }
 })

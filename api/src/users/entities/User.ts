@@ -9,11 +9,10 @@ import {
   JoinTable,
   OneToMany,
 } from "typeorm";
-import { Article } from "../../articles/entities/Articles";
-import { Guide } from "../../guides/entities/Guide";
+// import { Guide } from "../../guides/entities/Guide";
 import { Favorites } from "../../favorites/entities/Favorites";
 import { Review } from "../../review/entities/Review"
-import { Cart } from "../../cart/Cart";
+import { Plan } from "../../plan/Plan";
 
 @Entity() //Es un decorador para indicar que lo siguiente no solo es una clase de javascript, sino que es una tabla dentro de mi base de datos.
 export class User extends BaseEntity {
@@ -62,22 +61,25 @@ export class User extends BaseEntity {
   @JoinTable()
   favorites: Favorites[];
 
-  //User_Articles
-  @OneToMany(() => Article, (article) => article.users)
-  @JoinTable()
-  favoriteArticles: Article[];
+  @OneToMany(() => Plan, (plans) => plans.user)
+  plans: Plan[];
 
-  //User_Guides
-  @OneToMany(() => Guide, (guides) => guides.users)
-  @JoinTable()
-  favoriteGuides: Guide[];
+  // //User_Articles
+  // @OneToMany(() => Article, (article) => article.users)
+  // @JoinTable()
+  // favoriteArticles: Article[];
+
+  // //User_Guides
+  // @OneToMany(() => Guide, (guides) => guides.users)
+  // @JoinTable()
+  // favoriteGuides: Guide[];
 
   //User_Reviews
   @OneToMany(() => Review, (review) => review.users)
   @JoinTable()
   review: Review[]
 
-  //User_Cart
-  @OneToMany(() => Cart, cart => cart.user)
-  carts: Cart[];
+  // //User_Cart
+  // @OneToMany(() => Cart, cart => cart.user)
+  // carts: Cart[];
 }

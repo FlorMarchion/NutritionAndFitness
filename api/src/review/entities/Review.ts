@@ -11,7 +11,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "../../users/entities/User";
-import { Guide } from "../../guides/entities/Guide";
+// import { Guide } from "../../guides/entities/Guide";
 
 @Entity()
 export class Review extends BaseEntity {
@@ -30,9 +30,9 @@ export class Review extends BaseEntity {
   @DeleteDateColumn()
   deletedAt: Date;
   
-  @ManyToOne(() => Guide, (guide) => guide.reviews)
-  @JoinTable({ name: "guideId" })
-  guide: Guide;
+  // @ManyToOne(() => Guide, (guide) => guide.reviews)
+  // @JoinTable({ name: "guideId" })
+  // guide: Guide;
 
   @ManyToOne(() => User, (user) => user.review, { nullable: true })
   @JoinTable({ name: "userId" })

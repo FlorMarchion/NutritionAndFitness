@@ -76,10 +76,8 @@ export const addGuidesToCart = (userId, guideId, totalPrice) => async (dispatch)
 export const getGuidesFromCart = (userId) => async (dispatch) => {
     try {
         let response = await axios.get(`http://localhost:3001/cart/${userId}`)
-        let guidesInCart = response.data;
-        dispatch(cart(guidesInCart))
-        console.log('Se ejecutó la acción');
-
+        dispatch(cart(response.data))
+        console.log(response.data);
     } catch (error) {
         console.error("Can't get guides from cart:", error);
 

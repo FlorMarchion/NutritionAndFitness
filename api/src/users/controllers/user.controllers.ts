@@ -1,69 +1,67 @@
 import { Request, Response } from "express";
 import { User } from "../entities/User";
-import { Cart } from "../../cart/Cart";
 
 export class UserController {
   constructor(private userRepository: typeof User,
-    private cartRepository: typeof Cart,
   ) { }
 
-  async createUser(req: Request, res: Response) {
-    try {
-      const {
-        firstName,
-        lastName,
-        userName,
-        password,
-        ubication,
-        phoneNumber,
-        image,
-        email,
-      } = req.body;
+  // async createUser(req: Request, res: Response) {
+  //   try {
+  //     const {
+  //       firstName,
+  //       lastName,
+  //       userName,
+  //       password,
+  //       ubication,
+  //       phoneNumber,
+  //       image,
+  //       email,
+  //     } = req.body;
 
-      // Verificar si el correo electrónico ya está registrado
-      const existingEmailUser = await this.userRepository.findOneBy({email});
-      if (existingEmailUser) {
-        throw new Error("Email is already registered");
-      }
+  //     // Verificar si el correo electrónico ya está registrado
+  //     const existingEmailUser = await this.userRepository.findOneBy({email});
+  //     if (existingEmailUser) {
+  //       throw new Error("Email is already registered");
+  //     }
 
-      // Verificar si el nombre de usuario ya está registrado
-      const existingUserNameUser = await this.userRepository.findOneBy({userName});
-      if (existingUserNameUser) {
-        throw new Error(`There is already a user with the name ${userName}`);
-      }
+  //     // Verificar si el nombre de usuario ya está registrado
+  //     const existingUserNameUser = await this.userRepository.findOneBy({userName});
+  //     if (existingUserNameUser) {
+  //       throw new Error(`There is already a user with the name ${userName}`);
+  //     }
 
-      const user = this.userRepository.create({
-        firstName,
-        lastName,
-        userName,
-        password,
-        ubication,
-        phoneNumber,
-        image,
-        email,
-      });
-      await this.userRepository.save(user);
+  //     const user = this.userRepository.create({
+  //       firstName,
+  //       lastName,
+  //       userName,
+  //       password,
+  //       ubication,
+  //       phoneNumber,
+  //       image,
+  //       email,
+  //     });
+  //     await this.userRepository.save(user);
 
-      // Crear el carrito para el usuario
-      const cart = this.cartRepository.create({
-        user: user,
-        totalPrice: 0,
-        isDeleted: false
-      });
+  //     // Crear el carrito para el usuario
+  //     const cart = this.cartRepository.create({
+  //       user: user,
+  //       totalPrice: 0,
+  //       isDeleted: false
+  //     });
 
-      await this.cartRepository.save(cart);
+  //     await this.cartRepository.save(cart);
 
-      if (!user || !cart) {
-        throw new Error("User or cart not created");
-      }
-      return res.status(200).json({ user, cart });
-    } catch (error) {
-      if (error instanceof Error) {
-        return res.status(500).json({ message: error.message });
-      }
-      return res.status(500).json({ message: "Unknown Error" });
-    }
-  }
+  //     if (!user || !cart) {
+  //       throw new Error("User or cart not created");
+  //     }
+  //     return res.status(200).json({ user, cart });
+  //   } catch (error) {
+  //     if (error instanceof Error) {
+  //       return res.status(500).json({ message: error.message });
+  //     }
+  //     return res.status(500).json({ message: "Unknown Error" });
+  //   }
+  // }
 
   async getUsers(_req: Request, res: Response) {
     try {

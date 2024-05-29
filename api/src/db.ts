@@ -1,12 +1,15 @@
 import { DataSource } from "typeorm";
 import { User } from "./users/entities/User";
-import { Guide } from "./guides/entities/Guide";
-import { Article } from "./articles/entities/Articles";
 import { Favorites } from "./favorites/entities/Favorites";
-import { Admin } from "./admin/entities/Admin";
 import { Review } from "./review/entities/Review";
-import { CategoryGuide } from "./guides/entities/CategoryGuide";
-import { Cart } from "./cart/Cart";
+import { Product } from "./product/Product";
+import { Category } from "./categories/Category";
+import { Guide } from "./guide/Guide";
+import { Clothes } from "./clothes/Clothes";
+import { RecipeCollection } from "./recipeCollection/RecipeCollection";
+import { Supplements } from "./supplements/Supplements";
+import { Plan } from "./plan/Plan";
+import { Article } from "./article/Article";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -17,7 +20,7 @@ export const AppDataSource = new DataSource({
   database: "giuliProjectDb",
   synchronize: true,
   logging: false,
-  entities: [User, Guide, CategoryGuide, Admin, Article, Favorites, Review, Cart],
+  entities: [User, Favorites, Review, Product, Category, Guide, Clothes, RecipeCollection, Supplements, Plan, Article],
   // subscribers: [],
   // migrations: [],
 });

@@ -1,13 +1,12 @@
 import { Router } from "express";
 import { User } from "../entities/User";
 import { UserController } from "../controllers/user.controllers";
-import { Cart } from "../../cart/Cart";
 
 const router = Router();
-const userController = new UserController(User, Cart);
+const userController = new UserController(User);
 
 //Crear un ususario
-router.post("/users", (req, res) => userController.createUser(req, res));
+// router.post("/users", (req, res) => userController.createUser(req, res));
 
 //Obtener usuarios de la base de datos
 router.get("/users", (req, res) => userController.getUsers(req, res));
