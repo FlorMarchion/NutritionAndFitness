@@ -5,6 +5,12 @@ export enum ArticleStatus {
   deleted = "deleted",
 }
 
+export enum CategoryProducts{
+  Clothes = "Clothes",
+  Supplements = "Supplements",
+  Guides = "Guides",
+  Recipes = "Recipes"
+}
 
 export enum DietType {
   Vegetarian = "Vegetarian",

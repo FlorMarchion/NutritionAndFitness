@@ -10,6 +10,7 @@ import {
 
 } from "typeorm"
 import { Category } from "../categories/Category";
+import { Admin } from "../admin/Admin";
 
 @Entity()
 export class Product extends BaseEntity {
@@ -40,6 +41,8 @@ export class Product extends BaseEntity {
     @ManyToOne(() => Category, (category_product) => category_product.product)
     category_product: Category;
 
+    @ManyToOne(() => Admin, (admin) => admin.products)
+    admin: Admin;
     
 
 }

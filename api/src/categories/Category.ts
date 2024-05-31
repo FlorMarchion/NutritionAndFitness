@@ -11,6 +11,7 @@ import { Guide } from "../guide/Guide";
 import { RecipeCollection } from "../recipeCollection/RecipeCollection";
 import { Clothes } from "../clothes/Clothes";
 import { Supplements } from "../supplements/Supplements";
+import { CategoryProducts } from "../utils/enums";
 
 
 @Entity()
@@ -18,8 +19,12 @@ export class Category extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    name: string;
+    @Column({
+        type: 'enum',
+        enum: CategoryProducts,
+        nullable: true,
+    })
+    name: CategoryProducts
 
     @Column()
     description: string;
@@ -38,4 +43,5 @@ export class Category extends BaseEntity {
 
     @OneToMany(() => Supplements, (supplements) => supplements.category_product)
     supplements: Supplements[]
+
 }
