@@ -8,10 +8,6 @@ export class Guide extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    name: string;
-
-
     @Column({
         type: 'enum',
         enum: DietType,
@@ -36,5 +32,5 @@ export class Guide extends BaseEntity {
     @ManyToOne(() => Category, (category_product) => category_product.guides)
     category_product: Category
 
-    
+
 }
